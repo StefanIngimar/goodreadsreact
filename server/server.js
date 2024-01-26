@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
+const { createPost } = require('./postModels');
 
 require('dotenv').config();
 const app = express();
@@ -36,7 +37,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// login Endpoint
+// login endpoint
 app.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -55,6 +56,17 @@ app.post("/login", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error");
+    }
+});
+
+app.post('/posts', async (req, res) =>{
+    try{
+        const {userId, content} = req.body;
+        const newPost = await createPost(userId, content);
+        res.status(201).json(newPost);
+    } catch (error){
+        console.error(error);
+        res.status(500).send('Server error');
     }
 });
 
