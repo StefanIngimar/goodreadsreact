@@ -1,0 +1,32 @@
+.starter-page {
+    font-family: 'Arial', sans-serif;
+    color: #383838;
+    text-align: center;
+    padding: 20px;
+    background-color: #75420e;
+  }
+  .header {
+    background-color: #e9e5cd;
+    color: black;
+    padding: 10px 0;
+  }
+  
+  .navigation {
+    margin-top: 20px;
+  }
+  
+  .btn {
+    background-color: #553b08;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  
+  .btn:hover {
+    background-color: #e9e5cd;
+  }
