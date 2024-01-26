@@ -10,6 +10,9 @@ function ProfilePictureSelection({ onPictureSubmit }) {
     if(typeof onPictureSubmit === 'function'){
         onPictureSubmit(pictureUrl);
     }
+    if(typeof onPictureSubmit !== 'function'){
+        console.log('not picture');
+    }
     onPictureSubmit(pictureUrl);
     navigate('/timeline');
   };

@@ -5,6 +5,8 @@ import Registration from './Register';
 import StarterPage from './StarterPage';
 import ProfilePictureSelection from './ProfilePicSelect';
 import Timeline from './Timeline';
+import MyProfile from './MyProfile';
+import UserProfile from './UserProfile';
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" element={<StarterPage />} />
         <Route path="/choose-profile-picture" element={<ProfilePictureSelection/>}/>
         <Route path="/timeline" element={<Timeline/>}/>
+        <Route path="/MyProfile" element={<MyProfile/>}/>
+        <Route path="/UserProfile" element={<UserProfile/>}/>
       </Routes>
     </Router>
   );
