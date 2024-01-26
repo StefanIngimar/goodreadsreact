@@ -16,10 +16,10 @@ const db = new Pool({
   port: process.env.DB_PORT,
 });
 
-// Middleware to parse JSON bodies
+// middleware to parse json bodies
 app.use(bodyParser.json());
 
-// Registration Endpoint
+// registration Endpoint
 app.post("/register", async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -36,7 +36,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// Login Endpoint
+// login Endpoint
 app.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
