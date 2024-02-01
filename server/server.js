@@ -4,11 +4,15 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
 const { createPost } = require('./postModels');
+const jwt = require('jsonwebtoken');
+const {authenticateToken} = require('./middleware');
 
-require('dotenv').config();
+require('dotenv').config({path: __dirname + '/.env'});
+console.log('Database user:', process.env.DB_USER);
 const app = express();
 app.use(express.json());
 app.use(cors());
+console.log('Database password:', process.env.DB_PASSWORD);
 const db = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -46,7 +50,8 @@ app.post("/login", async (req, res) => {
         if (userResult.rows.length > 0) {
             const user = userResult.rows[0];
             if (await bcrypt.compare(password, user.password)) {
-                res.json({ message: "Login successful" });
+                const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+                res.json({ message: "Login successful", token });
             } else {
                 res.status(400).send("Invalid password");
             }
@@ -59,12 +64,12 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post('/posts', async (req, res) =>{
-    try{
-        const {userId, content} = req.body;
+app.post('/posts', authenticateToken, async (req, res) => {
+    try {
+        const { userId, content } = req.body;
         const newPost = await createPost(userId, content);
         res.status(201).json(newPost);
-    } catch (error){
+    } catch (error) {
         console.error(error);
         res.status(500).send('Server error');
     }
