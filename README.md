@@ -1,3 +1,7 @@
+This is a website that i created in React, with a Node server. The website is a copy of Goodreads, where users can search for books, add them to their respective lists 'Have read', 'Want to read', and 'Currently reading'. As well as following their friends to see what books they are reading. I created this project to teach myself how to use react. The search function comes from the Google Books API.
+
+---------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
