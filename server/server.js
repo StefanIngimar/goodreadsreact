@@ -6,8 +6,9 @@ const cors = require('cors');
 const { createPost } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
+const { addBook } = require('./booksModels');
 
-require('dotenv').config({path: __dirname + '/.env'});
+require('dotenv').config({path: __dirname + '/../.env'});
 console.log('Database user:', process.env.DB_USER);
 const app = express();
 app.use(express.json());
@@ -61,6 +62,21 @@ app.post("/login", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error");
+    }
+});
+
+app.post('/api/user-books/:listType', async (req, res) =>{
+    const{userId, booksId} = req.body;
+    if(!userId || !bookId){
+        return res.status(400).send("Missing user ID or book ID");
+    }
+    const{listType} = req.params;
+    try{
+        const newBook = await addBook(userId, booksId, listType);
+        res.status(201).json(newBook);
+    } catch(error){
+        console.error('Error adding book:', error);
+        res.status(500).send('Server error');
     }
 });
 
