@@ -1,0 +1,34 @@
+body {
+    background-color: beige;
+}
+
+.profile-container {
+    background-color: beige;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.profile-button {
+    margin-top: 10;
+    display: block;
+}
+
+.settings-dropdown {
+    margin-left: auto;
+    align-self: start;
+}

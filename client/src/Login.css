@@ -1,0 +1,86 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: beige;
+    min-height: 100vh; /* this ensures the form is centered vertically on the page */
+    width: 100%;
+  }
+  
+  .login-form h2 {
+    text-align: center;
+    margin-bottom: 20px; /* adds space below the title */
+  }
+  
+  .login-form input {
+    margin-bottom: 15px; /* adds space between the inputs and the button */
+    width: 80%; /* adjust the width as needed */
+    padding: 10px; /* adds padding inside the inputs */
+    border-radius: 5px; /* rounds the corners of the inputs */
+    border: 1px solid #ccc; /* gives a light border to the inputs */
+  }
+  
+  .loginbtn {
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    background-color: #e2e0c7;
+    border-color: #000000;
+    padding: 10px 20px;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease-in-out;
+    cursor: pointer; /* changes the cursor to a pointer when hovering over the button */
+    width: 80%; /* match the width of the inputs */
+    justify-content: space-around;
+  }
+
+  .noaccount{
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    background-color: #e2e0c7;
+    border-color: #000000;
+    padding: 10px 20px;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease-in-out;
+    cursor: pointer; /* changes the cursor to a pointer when hovering over the button */
+    width: 80%; /* match the width of the inputs */
+    justify-content: space-around;
+  }
+  
+  .loginbtn:hover,
+  .loginbtn:focus {
+    background-color: #ffffff;
+    border-color: #fefefe;
+  }
+  
+  .loginbtn:active {
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+  
+  .noaccount:hover,
+  .noaccount:focus{
+    background-color: #ffffff;
+    border-color: #fefefe;
+  }
+
+  .noaccount:active{
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+
+  .goodreadsheading h1{
+    font-family: 'Nimbus Sans Novus', sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .goodreadsheading h1 span:first-child{
+    font-weight: 300;
+  }
+  
+  .goodreadsheading h1 span:last-child{
+    font-weight: 700;
+  }

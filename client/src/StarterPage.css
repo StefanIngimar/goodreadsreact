@@ -1,0 +1,48 @@
+.starter-page {
+  font-family: 'Arial', sans-serif;
+  background-color: beige;
+  width: 100%;
+  min-height: 100vh; /* make sure it covers the whole viewport height */
+}
+
+.top-bar {
+  width: 100%; /* make the top bar span the entire width */
+  padding: 20px 0;
+  align-items: center;
+}
+
+.goodreadsheading h1{
+  font-family: 'Nimbus Sans Novus', sans-serif;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+}
+
+.goodreadsheading h1 span:first-child{
+  font-weight: 300;
+}
+
+.goodreadsheading h1 span:last-child{
+  font-weight: 700;
+}
+
+.books-img {
+  max-width: 100%;
+  height: auto; /* maintain aspect ratio */
+}
+
+.navigation .btn {
+  background-color: #553b08;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.navigation .btn:hover {
+  background-color: #e9e5cd;
+}
