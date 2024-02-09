@@ -69,18 +69,3 @@
     background-color: #ffffff;
     border-color: #ffffff;
   }
-
-  .goodreadsheading h1{
-    font-family: 'Nimbus Sans Novus', sans-serif;
-    margin: 0;
-    display: flex;
-    align-items: baseline;
-  }
-  
-  .goodreadsheading h1 span:first-child{
-    font-weight: 300;
-  }
-  
-  .goodreadsheading h1 span:last-child{
-    font-weight: 700;
-  }

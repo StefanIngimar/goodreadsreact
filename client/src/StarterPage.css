@@ -11,21 +11,6 @@
   align-items: center;
 }
 
-.goodreadsheading h1{
-  font-family: 'Nimbus Sans Novus', sans-serif;
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-}
-
-.goodreadsheading h1 span:first-child{
-  font-weight: 300;
-}
-
-.goodreadsheading h1 span:last-child{
-  font-weight: 700;
-}
-
 .books-img {
   max-width: 100%;
   height: auto; /* maintain aspect ratio */

@@ -1,0 +1,61 @@
+/* container for search area */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  /* styles for the search input */
+  .search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px; /* rounded corners on the left side */
+    width: 35%;
+    outline: none; /* removes the default focus outline */
+  }
+  
+  /* styles for the search button */
+  .search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #dfd6d6;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; /* rounded corners on the right side */
+    outline: none; /* removes the default focus outline */
+  }
+  
+  .search-button:hover {
+    background-color: #a8abaf;
+  }
+  
+  /* additional styling for the loading and error messages */
+  .loading, .error {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* styling for book items */
+  .book-item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #eee; /* subtle separator */
+  }
+  
+  .book-item h3 {
+    margin: 0;
+    color: #007bff; /* making the title match button color */
+  }
+  
+  .book-item p {
+    margin: 5px 0;
+  }
+  
+  .book-item img {
+    max-width: 100px; /* limit image size */
+    margin-top: 10px;
+  }
+  

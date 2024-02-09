@@ -1,28 +1,38 @@
-.whatsnew{
+/* Styles for the main container */
+.main-container {
+    display: flex;
+    justify-content: space-between; /* Spreads out the children elements */
+    align-items: center; /* Centers items vertically */
+    padding: 20px; /* Adds some padding around the elements */
+    background-color: beige;
+  }
+  
+  /* Styles for the profile button */
+  .profile button {
+    padding: 10px 20px; /* Adds padding inside the button */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Rounds the corners */
+  }
+  
+  .profile button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+  }
+  
+  /* Additional styling as needed */
+  .timeline h1, .wall h2 {
+    text-align: center; /* Centers the text */
+  }
+  
+  .whatsnew {
     color: black;
     font-size: 20px;
-    text-align: center;
-}
-
-.timeline{
-    text-align: center;
-}
-
-.profile{
-    align-items: right;
-}
-
-.goodreadsheading h1{
-    font-family: 'Nimbus Sans Novus', sans-serif;
-    margin: 0;
-    display: flex;
-    align-items: baseline;
   }
   
-  .goodreadsheading h1 span:first-child{
-    font-weight: 300;
+  /* Adjusts the alignment of elements */
+  .profile {
+    text-align: right; /* Aligns the profile button to the right */
   }
   
-  .goodreadsheading h1 span:last-child{
-    font-weight: 700;
-  }

@@ -9,22 +9,19 @@ function Timeline() {
   }
   return (
     <div>
-      <div className='goodreadsheading'>
-      <h1>
-      <span>Good</span><span>reads</span>
-      </h1>
-    </div>
-    <div style={{ backgroundColor: 'beige', padding: '20px'}}>
-      <div className='profile'>
-      <button onClick={goToProfile}>Profile</button>
+      <div className="main-container"> {/* This wraps the heading and the profile button */}
+        <div className='profile'>
+          <button onClick={goToProfile}>Profile</button>
+        </div>
       </div>
-      <div className='timeline'>
-        <h1>Timeline</h1>
+      <div style={{ backgroundColor: 'beige', padding: '20px' }}>
+        <div className='timeline'>
+          <h1>Timeline</h1>
+        </div>
+        <div className='wall'>
+          <h2 className="whatsnew">What's new?</h2>
+        </div>
       </div>
-      <div className='wall'>
-      <h2 className="whatsnew">What's new?</h2>
-      </div>
-    </div>
     </div>
   );
 }

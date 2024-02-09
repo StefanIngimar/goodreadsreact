@@ -13,12 +13,15 @@ const BookDetail = () => {
         return <div>Please log in to add books to your list</div>;
     }
     const apiUrl='http://localhost:3000';
+    console.log(user);
     const addToUserList = async (listType) => {
+        const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
+        console.log('Attempting to add book with userID:', user.userId);
         try {
             await axios.post(`${apiUrl}/api/user-books/${listType}`, {
-                userId: user.userId,
-                booksId: book.id,
-            });
+                userId: userId,
+                bookId: book.id,
+              });
             alert(`Book added to ${listType}`);
         } catch (error) {
             console.error('Error adding book to list', error);

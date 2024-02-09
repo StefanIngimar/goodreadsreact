@@ -52,7 +52,7 @@ app.post("/login", async (req, res) => {
             const user = userResult.rows[0];
             if (await bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-                res.json({ message: "Login successful", token });
+                res.json({ message: "Login successful", token, userId: user.id });
             } else {
                 res.status(400).send("Invalid password");
             }
@@ -66,13 +66,15 @@ app.post("/login", async (req, res) => {
 });
 
 app.post('/api/user-books/:listType', async (req, res) =>{
-    const{userId, booksId} = req.body;
-    if(!userId || !bookId){
+    console.log("Received request body:", req.body);
+    const{userId, bookId} = req.body;
+    console.log("Request to add book:", userId, bookId);
+    if (!userId || !bookId) {
         return res.status(400).send("Missing user ID or book ID");
     }
     const{listType} = req.params;
     try{
-        const newBook = await addBook(userId, booksId, listType);
+        const newBook = await addBook(userId, bookId, listType);
         res.status(201).json(newBook);
     } catch(error){
         console.error('Error adding book:', error);

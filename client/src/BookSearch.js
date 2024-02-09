@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import './BookSearch.css';
 
 const BookSearch = () => {
   const [query, setQuery] = useState('');
@@ -28,24 +29,33 @@ const BookSearch = () => {
   };
 
   const handleBookClick = (book) =>{
-    navigate('/book-detail', {state: {book}});
+    navigate('/BookDetail', {state: {book}});
   };
 
   return (
     <div>
-      <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-      <button onClick={handleSearch}>Search</button>
+      <div className='search-container'>
+        <input
+        type='text'
+        className='search-input'
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder='Search for books...'
+        />
+        <button className='search-button' onClick={handleSearch}>Search</button>
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       <div>
-        {books.map((book) => (
-          <div key={book.id} onClick={() => handleBookClick(book)}>
-            <h3>{book.volumeInfo.title}</h3>
-            <p>Author: {book.volumeInfo.authors?.join(', ')}</p>
-            <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} />
-          </div>
-        ))}
-      </div>
+  {books.map((book) => (
+    <div key={book.id} className="book-item" onClick={() => handleBookClick(book)}>
+      <h3>{book.volumeInfo.title}</h3>
+      <p>Author: {book.volumeInfo.authors?.join(', ')}</p>
+      <img src={book.volumeInfo.imageLinks?.thumbnail} alt={book.volumeInfo.title} />
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

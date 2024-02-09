@@ -30,8 +30,16 @@ function Login() {
 
       const data = await response.json();
       console.log('Login successful:', data);
-      localStorage.setItem('user', JSON.stringify({username, token: data.token}));
-      setUser({ username, token: data.token });
+      localStorage.setItem('user', JSON.stringify({
+        username: data.username, 
+        token: data.token,
+        userId: data.userId
+      }));
+      setUser({
+        username: data.username,
+        token: data.token,
+        userId: data.userId
+      });
       navigate('/timeline');
     } catch (error) {
       console.error('Login failed:', error);
@@ -40,11 +48,6 @@ function Login() {
 
   return (
     <div>
-      <div className='goodreadsheading'>
-      <h1>
-      <span>Good</span><span>reads</span>
-      </h1>
-    </div>
     <div className="login-form"> {/* Use the login-form class here */}
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>

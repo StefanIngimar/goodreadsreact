@@ -39,11 +39,6 @@ function Registration() {
 
   return (
     <div>
-      <div className='goodreadsheading'>
-      <h1>
-      <span>Good</span><span>reads</span>
-      </h1>
-      </div>
     <div className='registerform'>
     <div style={{ backgroundColor: 'beige', padding: '20px' }}>
       <form onSubmit={handleSubmit}>

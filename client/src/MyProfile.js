@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './MyProfile.css';
-import { Dropdown } from 'bootstrap';
 
 class MyProfile extends Component {
     render() {
@@ -12,16 +11,6 @@ class MyProfile extends Component {
                     <button className="profile-button">Currently Reading</button>
                     <button className="profile-button">Want to Read</button>
                     <button className="profile-button">Read</button>
-                </div>
-                <div className="settings-dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                        Settings
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li><a className="dropdown-item" href="#">Edit Profile</a></li>
-                        <li><a className="dropdown-item" href="#">Dark mode</a></li>
-                        <li><a className="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
                 </div>
             </div>
         );
