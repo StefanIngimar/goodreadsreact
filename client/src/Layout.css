@@ -1,0 +1,33 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .book-search-container{
+    flex-grow: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .settings-dropdown .dropdown-toggle{
+    right: 0;
+  }
+  
+  .user-controls{
+    display: flex;
+    gap: 10px;
+  }
+
+  .profile-btn{
+    padding: 5px 10px;
+    font-size: 1rem;
+  }

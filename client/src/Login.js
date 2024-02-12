@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 import './Login.css';
-//testing user
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useUser();
-  const goToRegister=()=>{
-    navigate('/Register');
-  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowError(false);
     try {
       const response = await fetch('/login', {
         method: 'POST',
@@ -25,7 +23,7 @@ function Login() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error('Incorrect username or password');
       }
 
       const data = await response.json();
@@ -42,31 +40,20 @@ function Login() {
       });
       navigate('/timeline');
     } catch (error) {
+      alert('Login failed. Invalid username or password')
       console.error('Login failed:', error);
     }
   };
 
   return (
-    <div>
-    <div className="login-form"> {/* Use the login-form class here */}
+    <div className="login-form">
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
-        <input 
-          type="text" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
-          placeholder="Username" 
-        />
-        <input 
-          type="password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          placeholder="Password" 
-        />
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         <button className='loginbtn' type="submit">Login</button>
-        <button className='noaccount' onClick={goToRegister}>Register</button>
+        <button type="button" className='noaccount' onClick={() => navigate('/Register')}>Register</button>
       </form>
-    </div>
     </div>
   );
 }

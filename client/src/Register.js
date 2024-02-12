@@ -33,6 +33,7 @@ function Registration() {
         const data = await response.json();
         console.log('Registration successful:', data);
     } catch (error) {
+        alert('Username already exists. Please choose another name')
         console.error('Registration failed:', error);
     }
 };

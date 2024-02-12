@@ -29,16 +29,6 @@ function App() {
           <Link to="/timeline" className="header-link"><span>Good</span><span>reads</span></Link>
           </div>
           </div>
-          <div className="settings-dropdown">
-      <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-        Settings
-      </button>
-      <ul className="dropdown-menu">
-      <li><a className="dropdown-item" href="#">Edit Profile</a></li>
-      <li><a className="dropdown-item" href="#">Dark mode</a></li>
-      <li><a className="dropdown-item" href="#">Log out</a></li>
-      </ul>
-    </div>
         </div>
       <Routes>
       <Route path="/login" element={<Login/>} />

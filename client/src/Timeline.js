@@ -9,10 +9,7 @@ function Timeline() {
   }
   return (
     <div>
-      <div className="main-container"> {/* This wraps the heading and the profile button */}
-        <div className='profile'>
-          <button onClick={goToProfile}>Profile</button>
-        </div>
+      <div className="main-container">
       </div>
       <div style={{ backgroundColor: 'beige', padding: '20px' }}>
         <div className='timeline'>
