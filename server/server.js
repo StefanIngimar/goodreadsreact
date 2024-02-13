@@ -72,23 +72,21 @@ app.post('/api/user-books/:listType', async (req, res) =>{
     if (!userId || !bookId) {
         return res.status(400).send("Missing user ID or book ID");
     }
-    const{listType} = req.params;
     try{
-        const newBook = await addBook(userId, bookId, listType);
-        res.status(201).json(newBook);
+        const result = await addBookToUserList(userId, bookId, req.params.listType);
+        res.json(result);
     } catch(error){
-        console.error('Error adding book:', error);
+        console.error(error.response.data);
         res.status(500).send('Server error');
     }
 });
-
+const { getPosts, createPost } = require('./postModels');
 app.post('/posts', authenticateToken, async (req, res) => {
     try {
-        const { userId, content } = req.body;
-        const newPost = await createPost(userId, content);
-        res.status(201).json(newPost);
+        const posts = await getPosts();
+        res.json(posts);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching posts:', error);
         res.status(500).send('Server error');
     }
 });

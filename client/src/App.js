@@ -12,7 +12,6 @@ import BookSearch from './BookSearch';
 import BookDetail from './BookDetail';
 import { UserProvider } from './UserContext';
 import './App.css';
-import { Dropdown } from 'bootstrap';
 
 const isLoggedIn = () =>{
   return Boolean(localStorage.getItem('user'));
@@ -23,13 +22,6 @@ function App() {
   return (
     <UserProvider>
     <Router>
-    <div className="app-header">
-      <div className='global-header'>
-          <div className="logo">
-          <Link to="/timeline" className="header-link"><span>Good</span><span>reads</span></Link>
-          </div>
-          </div>
-        </div>
       <Routes>
       <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Registration/>} />

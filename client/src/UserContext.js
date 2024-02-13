@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-const UserContext = createContext(null);
+const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem('user');
-        return savedUser ? JSON.parse(savedUser) : null;
+        return savedUser ? JSON.parse(savedUser) : {};
     });
 
     console.log(user);

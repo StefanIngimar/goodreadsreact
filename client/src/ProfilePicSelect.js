@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext';
 
-function ProfilePictureSelection({ onPictureSubmit }) {
+function ProfilePictureSelection() {
   const [pictureUrl, setPictureUrl] = useState('');
   const navigate = useNavigate();
+  const { user, setUser } = useUser();
+
+  const defaultProfilePic = process.env.PUBLIC_URL + '/anon.webp';
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(typeof onPictureSubmit === 'function'){
-        onPictureSubmit(pictureUrl);
-    }
-    if(typeof onPictureSubmit !== 'function'){
-        console.log('not picture');
-    }
-    onPictureSubmit(pictureUrl);
+    const updatedUser = { ...user, profilePictureUrl: pictureUrl || defaultProfilePic };
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
     navigate('/timeline');
   };
 
-  const handleSkip = () =>{
+  const handleSkip = () => {
+    const updatedUser = { ...user, profilePictureUrl: defaultProfilePic };
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
     navigate('/timeline');
-  }
+  };
 
   return (
     <div style={{ backgroundColor: 'beige', padding: '20px' }}>
@@ -32,7 +35,7 @@ function ProfilePictureSelection({ onPictureSubmit }) {
           placeholder="Profile picture URL" 
         />
         <button type="submit">Submit</button>
-        <button type='skip' onClick={handleSkip} style={{marginLeft: '10px'}}>Skip</button>
+        <button onClick={handleSkip} style={{marginLeft: '10px'}}>Skip</button>
       </form>
     </div>
   );

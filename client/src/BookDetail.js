@@ -12,20 +12,45 @@ const BookDetail = () => {
         console.log('No user logged in');
         return <div>Please log in to add books to your list</div>;
     }
-    const apiUrl='http://localhost:3000';
-    console.log(user);
+    const apiUrl = 'http://localhost:3000';
+    const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
+
+    if (!userId) {
+        console.error('UserID is undefined. Please check the user state and localStorage.');
+        return <div>Error: User ID not found. Please log in again.</div>;
+    }
+
+    const createPost = async (content) => {
+        try{
+            await axios.post(`${apiUrl}/api/posts`,{
+                userId: user.userId,
+                content: content
+            });
+        } catch(error){
+            console.error('Error creating post:', error);
+        }
+    };
+
     const addToUserList = async (listType) => {
         const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
-        console.log('Attempting to add book with userID:', user.userId);
+        console.log('Attempting to add book with userID:', userId);
+
+        if (!userId) {
+            console.log('User ID is undefined. Please log in.');
+            return;
+        }
         try {
             await axios.post(`${apiUrl}/api/user-books/${listType}`, {
                 userId: userId,
                 bookId: book.id,
-              });
-            alert(`Book added to ${listType}`);
+            });
+            alert(`Book added to ${listType} list.`);
+            const bookTitle = book.volumeInfo.title;
+            const content = `${user.username} has added ${bookTitle} to their ${listType} list.`;
+            await createPost(content);
         } catch (error) {
-            console.error('Error adding book to list', error);
-            alert('Failed to add book to list');
+            console.error('Error adding book to list:', error);
+            alert('Failed to add book to list.');
         }
     };
 
@@ -34,11 +59,11 @@ const BookDetail = () => {
     };
 
     const handleAddtoWantToRead = () => {
-        addToUserList('wantToRead');
+        addToUserList('want to read');
     };
 
     const handleAddToCurrentlyReading = () => {
-        addToUserList('currentlyReading');
+        addToUserList('currently reading');
     };
 
     return (

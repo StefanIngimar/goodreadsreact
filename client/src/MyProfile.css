@@ -17,12 +17,6 @@ body {
     align-items: flex-start;
 }
 
-.profile-picture {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-}
-
 .profile-button {
     margin-top: 10;
     display: block;
