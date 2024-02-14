@@ -20,10 +20,11 @@ const BookDetail = () => {
         return <div>Error: User ID not found. Please log in again.</div>;
     }
 
-    const createPost = async (content) => {
+    const createPost = async (title, content) => {
         try{
             await axios.post(`${apiUrl}/api/posts`,{
                 userId: user.userId,
+                title: title,
                 content: content
             });
         } catch(error){
@@ -47,7 +48,8 @@ const BookDetail = () => {
             alert(`Book added to ${listType} list.`);
             const bookTitle = book.volumeInfo.title;
             const content = `${user.username} has added ${bookTitle} to their ${listType} list.`;
-            await createPost(content);
+            const title = "New Book Added";
+            await createPost(title, content);
         } catch (error) {
             console.error('Error adding book to list:', error);
             alert('Failed to add book to list.');

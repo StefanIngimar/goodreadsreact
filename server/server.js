@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post('/api/user-books/:listType', async (req, res) =>{
+app.post('/api/user-books/:listType', async (req, res, next) =>{
     console.log("Received request body:", req.body);
     const{userId, bookId} = req.body;
     console.log("Request to add book:", userId, bookId);
@@ -73,18 +73,23 @@ app.post('/api/user-books/:listType', async (req, res) =>{
         return res.status(400).send("Missing user ID or book ID");
     }
     try{
-        const result = await addBookToUserList(userId, bookId, req.params.listType);
+        const result = await addBook(userId, bookId, req.params.listType);
+        if(!result) throw new Error('Function did not return a result');
         res.json(result);
     } catch(error){
-        console.error(error.response.data);
-        res.status(500).send('Server error');
+        console.error('Error adding book:', error);
+        if(error.response){
+            console.error(error.response.data);
+        }
+        next(error);
     }
 });
-const { getPosts, createPost } = require('./postModels');
-app.post('/posts', authenticateToken, async (req, res) => {
+
+app.post('/api/posts', authenticateToken, async (req, res) => {
     try {
-        const posts = await getPosts();
-        res.json(posts);
+        const{userId, title, content} = req.body;
+        const newPost = await createPost(userId, title, content);
+        res.status(201).json(newPost);
     } catch (error) {
         console.error('Error fetching posts:', error);
         res.status(500).send('Server error');

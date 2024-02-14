@@ -8,10 +8,10 @@ const pool = new Pool({
     port: 5432,
 });
 
-const createPost = async (userId, content) => {
+const createPost = async (userId, title, content) => {
     const result = await pool.query(
-        'INSERT INTO posts (user_id, content) VALUES ($1, $2) RETURNING *',
-        [userId, content]
+        'INSERT INTO posts (user_id, title, content) VALUES ($1, $2, $3) RETURNING *',
+        [userId, title, content]
     );
     return result.rows[0];
 };
