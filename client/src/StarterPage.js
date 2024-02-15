@@ -15,7 +15,7 @@ function StarterPage() {
           <Link to="/register" className="btn btn-secondary mx-2">Register</Link>
         </nav>
       </div>
-      <img src="/books.jpeg" alt="Books" className="books-img w-100"/>
+      <img src="https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Books" className="books-img w-100"/>
     </div>
     </div>
   );

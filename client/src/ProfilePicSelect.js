@@ -7,7 +7,7 @@ function ProfilePictureSelection() {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
 
-  const defaultProfilePic = process.env.PUBLIC_URL + '/anon.webp';
+  const defaultProfilePic = "https://as1.ftcdn.net/v2/jpg/05/16/27/58/1000_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
 
   const handleSubmit = (event) => {
     event.preventDefault();
