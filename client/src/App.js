@@ -12,6 +12,8 @@ import BookSearch from './BookSearch';
 import BookDetail from './BookDetail';
 import { UserProvider } from './UserContext';
 import './App.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 const isLoggedIn = () =>{
   return Boolean(localStorage.getItem('user'));

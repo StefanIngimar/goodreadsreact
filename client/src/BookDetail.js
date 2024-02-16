@@ -12,7 +12,7 @@ const BookDetail = () => {
         console.log('No user logged in');
         return <div>Please log in to add books to your list</div>;
     }
-    const apiUrl = 'http://localhost:3000';
+    const apiUrl = 'http://localhost:8000';
     const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
 
     if (!userId) {
@@ -21,16 +21,33 @@ const BookDetail = () => {
     }
 
     const createPost = async (title, content) => {
-        try{
-            await axios.post(`${apiUrl}/api/posts`,{
-                userId: user.userId,
-                title: title,
-                content: content
-            });
-        } catch(error){
-            console.error('Error creating post:', error);
+        const userStored = localStorage.getItem('user');
+        if(!userStored){
+            console.error('User data not available.');
+            return;
         }
-    };
+        const user = JSON.parse(userStored);
+        const token = user.token;
+
+        if(!token){
+            console.error('Authentication token is not available.');
+        }
+        try {
+            const apiUrl = 'http://localhost:8000'; // Make sure this points to the correct server URL
+            await axios.post(`${apiUrl}/api/posts`, {
+              userId: user.userId,
+              title,
+              content
+            }, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            console.log('Post created successfully');
+          } catch (error) {
+            console.error('Error creating post:', error.response ? error.response.data : error);
+          }
+        };
 
     const addToUserList = async (listType) => {
         const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;

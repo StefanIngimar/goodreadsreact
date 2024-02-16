@@ -6,11 +6,19 @@ function Registration() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const navigate = useNavigate();
+
+  const validateEmail = (email) =>{
+    return email.includes('@');
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if(!validateEmail(email)){
+      alert('Please enter a valid email address.');
+      return;
+    }
     try {
         const response = await fetch('/register', {
             method: 'POST',
@@ -32,8 +40,13 @@ function Registration() {
 
         const data = await response.json();
         console.log('Registration successful:', data);
+
+        localStorage.setItem('user', JSON.stringify({
+          username: data.username,
+          token: data.token,
+          userId: data.userId,
+        }));
     } catch (error) {
-        alert('Username already exists. Please choose another name')
         console.error('Registration failed:', error);
     }
 };

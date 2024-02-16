@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { createPost } = require('./postModels');
+const { createPost, getPosts } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
 const { addBook } = require('./booksModels');
@@ -53,6 +53,7 @@ app.post("/login", async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
                 res.json({ message: "Login successful", token, userId: user.id });
+                console.log('Here is the token:', token);
             } else {
                 res.status(400).send("Invalid password");
             }
@@ -92,6 +93,17 @@ app.post('/api/posts', authenticateToken, async (req, res) => {
         res.status(201).json(newPost);
     } catch (error) {
         console.error('Error fetching posts:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/api/posts', async(req, res) =>{
+    try{
+        const posts = await db.query('SELECT * FROM posts');
+        console.log('Fetched posts:', posts.rows);
+        res.json(posts.rows);
+    }catch(error){
+        console.error('Error fetching posts', error);
         res.status(500).send('Server error');
     }
 });
