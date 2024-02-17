@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import { useUser } from './UserContext';
 import './Register.css';
 
 function Registration() {
@@ -7,6 +8,7 @@ function Registration() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const validateEmail = (email) =>{
     return email.includes('@');
@@ -28,12 +30,6 @@ function Registration() {
             body: JSON.stringify({ username, email, password }),
         });
 
-        if(response.ok){
-          const data = await response.json();
-          console.log('Registration successful', data);
-          navigate('/choose-profile-picture');
-        }
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -42,19 +38,19 @@ function Registration() {
         console.log('Registration successful:', data);
 
         localStorage.setItem('user', JSON.stringify({
-          username: data.username,
+          username: data.username, 
           token: data.token,
-          userId: data.userId,
+          userId: data.userId
         }));
-
-        setUsername({
+        user({
           username: data.username,
           token: data.token,
-          userId: data.userId,
+          userId: data.userId
         });
         navigate('/timeline');
     } catch (error) {
         console.error('Registration failed:', error);
+        alert('Registration failed. Please try again.');
     }
 };
 
