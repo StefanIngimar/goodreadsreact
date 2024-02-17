@@ -46,6 +46,13 @@ function Registration() {
           token: data.token,
           userId: data.userId,
         }));
+
+        setUsername({
+          username: data.username,
+          token: data.token,
+          userId: data.userId,
+        });
+        navigate('/timeline');
     } catch (error) {
         console.error('Registration failed:', error);
     }

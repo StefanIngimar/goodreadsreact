@@ -97,14 +97,14 @@ app.post('/api/posts', authenticateToken, async (req, res) => {
     }
 });
 
-app.get('/api/posts', async(req, res) =>{
-    try{
-        const posts = await db.query('SELECT * FROM posts');
-        console.log('Fetched posts:', posts.rows);
-        res.json(posts.rows);
-    }catch(error){
-        console.error('Error fetching posts', error);
-        res.status(500).send('Server error');
+app.get('/api/posts', authenticateToken, async(req, res) =>{
+    const userId = req.user.id;
+    try {
+        const posts = await getPostsByUser(userId);
+        res.json(posts);
+    } catch (error) {
+        console.error('Failed to fetch posts for user', error);
+        res.status(500).send('Failed to fetch posts');
     }
 });
 
