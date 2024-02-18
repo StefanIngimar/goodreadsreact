@@ -14,7 +14,8 @@ const getUsers = async () => {
 };
 
 const createUser = async (username, password) => {
-    const result = await pool.query('INSERT INTO users(username, email, password, profile_picture_url) VALUES($1, $2, $3, $4) RETURNING *', [username, email, password, profilePictureUrl]);
+    const result = await pool.query('INSERT INTO users(username, email, password, profile_picture_url) VALUES($1, $2, $3, $4) RETURNING id, username, email, profile_picture_url',
+    [username, email, password, profilePictureUrl]);
     return result.rows[0];
 };
 

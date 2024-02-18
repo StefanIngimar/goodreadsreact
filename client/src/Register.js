@@ -8,7 +8,7 @@ function Registration() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { setUser } = useUser();
 
   const validateEmail = (email) =>{
     return email.includes('@');
@@ -36,18 +36,24 @@ function Registration() {
 
         const data = await response.json();
         console.log('Registration successful:', data);
+        if (data.user && data.user.userId) {
+          localStorage.setItem('user', JSON.stringify({
+              username: data.user.username, 
+              token: data.token,
+              userId: data.user.userId
+          }));
 
-        localStorage.setItem('user', JSON.stringify({
-          username: data.username, 
-          token: data.token,
-          userId: data.userId
-        }));
-        user({
-          username: data.username,
-          token: data.token,
-          userId: data.userId
-        });
-        navigate('/timeline');
+          setUser({
+            username: data.user.username,
+            token: data.token,
+            userId: data.user.userId
+          });
+
+          navigate('/choose-profile-picture');
+      } else {
+          console.error('Registration succeeded but userId was not provided.');
+          alert('Registration failed due to an unexpected issue. Please try again.');
+      }
     } catch (error) {
         console.error('Registration failed:', error);
         alert('Registration failed. Please try again.');

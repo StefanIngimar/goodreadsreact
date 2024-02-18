@@ -32,13 +32,53 @@ app.post("/register", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const result = await db.query('INSERT INTO users(username, email, password) VALUES($1, $2, $3) RETURNING *', [username, email, hashedPassword]);
-        res.status(201).json(result.rows[0]);
+        const newUser = result.rows[0];
+
+        if(!newUser){
+            return res.status(400).send("User could not be created");
+        }
+
+        const token = jwt.sign(
+            { userId: newUser.id, username: newUser.username },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: '24h' }
+        );
+
+        res.status(201).json({
+            message: "User created successfully",
+            user: {
+                userId: newUser.id,
+                username: newUser.username,
+                email: newUser.email
+            },
+            token: token
+        });
     } catch (error) {
         console.error('Error occurred', error);
         if(error.code === '23505'){
             return res.status(409).send("Username already exists");
         }
         res.status(500).send("Server error");
+    }
+});
+
+app.post('/api/user/choose-profile-picture', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;
+    const { profilePictureUrl } = req.body;
+
+    try {
+        const result = await db.query(
+            'UPDATE users SET profile_picture_url = $1 WHERE id = $2 RETURNING *',
+            [profilePictureUrl, userId]
+        );
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]);
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
     }
 });
 

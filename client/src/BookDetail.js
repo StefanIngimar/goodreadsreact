@@ -8,12 +8,15 @@ const BookDetail = () => {
     const { book } = location.state;
     const { user } = useUser();
 
-    if (!user) {
+    const userId = user?.id;
+    const token = user?.token;;
+
+    if (!userId || !token) {
         console.log('No user logged in');
         return <div>Please log in to add books to your list</div>;
     }
     const apiUrl = 'http://localhost:8000';
-    const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
+    //const userId = user.userId;
 
     if (!userId) {
         console.error('UserID is undefined. Please check the user state and localStorage.');
@@ -33,7 +36,7 @@ const BookDetail = () => {
             console.error('Authentication token is not available.');
         }
         try {
-            const apiUrl = 'http://localhost:8000'; // Make sure this points to the correct server URL
+            const apiUrl = 'http://localhost:8000'; 
             await axios.post(`${apiUrl}/api/posts`, {
               userId: user.userId,
               title,

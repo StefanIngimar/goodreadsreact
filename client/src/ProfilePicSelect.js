@@ -9,13 +9,36 @@ function ProfilePictureSelection() {
 
   const defaultProfilePic = "https://as1.ftcdn.net/v2/jpg/05/16/27/58/1000_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const updatedUser = { ...user, profilePictureUrl: pictureUrl || defaultProfilePic };
-    setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    navigate('/timeline');
-  };
+    const profilePictureUrl = pictureUrl || defaultProfilePic;
+    const updatedUser = { ...user, profilePictureUrl };
+
+    try {
+        const response = await fetch('/api/user/choose-profile-picture', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`, 
+            },
+            body: JSON.stringify({
+                userId: user.userId,
+                profilePictureUrl,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update profile picture');
+        }
+        const data = await response.json();
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
+        navigate('/timeline');
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        alert('Failed to update profile picture. Please try again.');
+    }
+};
 
   const handleSkip = () => {
     const updatedUser = { ...user, profilePictureUrl: defaultProfilePic };
