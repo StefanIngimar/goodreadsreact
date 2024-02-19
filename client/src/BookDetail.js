@@ -66,7 +66,8 @@ const BookDetail = () => {
             const bookTitle = book.volumeInfo.title;
             const content = `${user.username} has added ${bookTitle} to their ${listType} list.`;
             const title = "New Book Added";
-            await createPost(title, content);
+            const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
+            await createPost(title, content, bookImageUrl);
         } catch (error) {
             console.error('Error adding book to list:', error);
             alert('Failed to add book to list.');

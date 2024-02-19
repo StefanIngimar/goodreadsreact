@@ -20,6 +20,7 @@ function Timeline() {
         });
         setPosts(response.data);
         setError('');
+        console.log(response.data);
       } catch (error) {
         console.error("Failed to fetch posts", error);
         setError('Failed to fetch posts. Please try again later.');
@@ -31,19 +32,20 @@ function Timeline() {
     <div className="timeline-container">
       <h1 className="timeline-heading">Timeline</h1>
       <div className="posts-container">
-        {posts.map((post) => (
-          <div key={post.id} className="post-container">
-            <div className="post-header">
-              <img src={post.userProfilePictureUrl} alt="User" className="user-profile-pic"/>
-              <span className="username">{post.username}</span>
-            </div>
-            <div className="post-content">
-              <p>{post.title}</p>
-              <p>{post.content}</p>
-              {post.bookImageUrl && <img src={post.bookImageUrl} alt="Book" className="book-image"/>}
-            </div>
-          </div>
-        ))}
+      {posts.map((post) => (
+  <div key={post.id} className="post-container">
+    <div className="post-header">
+      {post.userProfilePictureUrl && <img src={post.userProfilePictureUrl} alt="User" className="user-profile-pic"/>}
+      <span className="username">{post.username}</span>
+    </div>
+    <div className="post-content">
+      <p>{post.title}</p>
+      <p>{post.content}</p>
+      {post.bookImageUrl && <img src={post.bookImageUrl} alt="Book" className="book-image"/>}
+    </div>
+  </div>
+))}
+
         {error && <div className="error">{error}</div>}
       </div>
     </div>

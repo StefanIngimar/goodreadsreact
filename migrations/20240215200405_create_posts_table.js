@@ -7,6 +7,8 @@ exports.up = function(knex) {
         table.string('title', 100).notNullable();
         table.text('content').notNullable();
         table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.string('userProfilePictureUrl').after('user_id');
+        table.string('bookImageUrl').after('content');
       });
     }
   });
