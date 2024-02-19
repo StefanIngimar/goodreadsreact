@@ -1,38 +1,48 @@
-/* Styles for the main container */
-.main-container {
-    display: flex;
-    justify-content: space-between; /* Spreads out the children elements */
-    align-items: center; /* Centers items vertically */
-    padding: 20px; /* Adds some padding around the elements */
-    background-color: beige;
-  }
-  
-  /* Styles for the profile button */
-  .profile button {
-    padding: 10px 20px; /* Adds padding inside the button */
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px; /* Rounds the corners */
-  }
-  
-  .profile button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
-  }
-  
-  /* Additional styling as needed */
-  .timeline h1, .wall h2 {
-    text-align: center; /* Centers the text */
-  }
-  
-  .whatsnew {
-    color: black;
-    font-size: 20px;
-  }
-  
-  /* Adjusts the alignment of elements */
-  .profile {
-    text-align: right; /* Aligns the profile button to the right */
-  }
-  
+.timeline-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.timeline-heading {
+  margin-bottom: 20px;
+}
+
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post-container {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 80%; /* Adjust width as needed */
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.post-content {
+  margin-left: 60px;
+}
+
+.book-image {
+  width: 100px;
+  margin-top: 10px;
+}

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { createPost, getPostsByUser } = require('./postModels');
+const { createPost, getPostsByUser, getPosts } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
 const { addBook } = require('./booksModels');
@@ -138,17 +138,16 @@ app.post('/api/posts', authenticateToken, async (req, res) => {
 });
 
 app.get('/api/posts', authenticateToken, async(req, res) =>{
-    if (!req.user || !req.user.id) {
-        return res.status(400).send('User not authenticated');
-    }
-
+    const userId = req.user.userId;
     try {
-        const posts = await getPostsByUser(req.user.id);
+        const posts = await getPostsByUser(userId);
         res.json(posts);
     } catch (error) {
         console.error('Failed to fetch posts:', error);
         res.status(500).send('Failed to fetch posts');
     }
 });
+console.log({ createPost, getPostsByUser, getPosts });
+
 
 app.listen(8000, () => {console.log("Server started on port 8000")});

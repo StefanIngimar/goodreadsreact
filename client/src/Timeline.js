@@ -28,21 +28,23 @@ function Timeline() {
     fetchPosts();
   }, []);
   return (
-    <div>
-      <div className="main-container">
-      </div>
-      <div style={{ backgroundColor: 'beige', padding: '20px' }}>
-        <div className='timeline'>
-          <h1>Timeline</h1>
-          {posts.map((post) => (
-            <div key={post.id} className='post'>
-              <p>{post.title}: {post.content}</p> {/* Display post title */}
+    <div className="timeline-container">
+      <h1 className="timeline-heading">Timeline</h1>
+      <div className="posts-container">
+        {posts.map((post) => (
+          <div key={post.id} className="post-container">
+            <div className="post-header">
+              <img src={post.userProfilePictureUrl} alt="User" className="user-profile-pic"/>
+              <span className="username">{post.username}</span>
             </div>
-          ))}
-        </div>
-        <div className='wall'>
-          <h2 className="whatsnew">What's new?</h2>
-        </div>
+            <div className="post-content">
+              <p>{post.title}</p>
+              <p>{post.content}</p>
+              {post.bookImageUrl && <img src={post.bookImageUrl} alt="Book" className="book-image"/>}
+            </div>
+          </div>
+        ))}
+        {error && <div className="error">{error}</div>}
       </div>
     </div>
   );

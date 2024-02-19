@@ -17,11 +17,16 @@ const createPost = async (userId, title, content) => {
 };
 
 const getPostsByUser = async (userId) => {
-    const result = await pool.query(
-        'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC',
-        [userId]
-    );
-    return result.rows;
+    try {
+        console.log("Fetching posts for userID:", userId);
+        const result = await pool.query(
+            'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC',
+            [userId]);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching posts for user:', error);
+        throw error;
+    }
 };
 
 const getPosts = async () => {
@@ -37,5 +42,6 @@ const getPosts = async () => {
 
 module.exports = {
     createPost,
+    getPosts,
     getPostsByUser
 };
