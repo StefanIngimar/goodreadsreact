@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { createPost, getPosts } = require('./postModels');
+const { createPost, getPostsByUser } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
 const { addBook } = require('./booksModels');
@@ -138,12 +138,15 @@ app.post('/api/posts', authenticateToken, async (req, res) => {
 });
 
 app.get('/api/posts', authenticateToken, async(req, res) =>{
-    const userId = req.user.id;
+    if (!req.user || !req.user.id) {
+        return res.status(400).send('User not authenticated');
+    }
+
     try {
-        const posts = await getPostsByUser(userId);
+        const posts = await getPostsByUser(req.user.id);
         res.json(posts);
     } catch (error) {
-        console.error('Failed to fetch posts for user', error);
+        console.error('Failed to fetch posts:', error);
         res.status(500).send('Failed to fetch posts');
     }
 });

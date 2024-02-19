@@ -10,13 +10,17 @@ function Timeline() {
   const {user} = useUser();
   const navigate = useNavigate();
 
-  useEffect(() =>{
+  useEffect(() => {
     const fetchPosts = async () => {
-      try{
-        const response = await axios.get('http://localhost:8000/api/posts');
+      try {
+        const response = await axios.get('http://localhost:8000/api/posts', {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         setPosts(response.data);
         setError('');
-      } catch(error){
+      } catch (error) {
         console.error("Failed to fetch posts", error);
         setError('Failed to fetch posts. Please try again later.');
       }

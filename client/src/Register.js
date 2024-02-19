@@ -40,13 +40,15 @@ function Registration() {
           localStorage.setItem('user', JSON.stringify({
               username: data.user.username, 
               token: data.token,
-              userId: data.user.userId
+              userId: data.user.userId,
+              profilePictureUrl: ''
           }));
 
           setUser({
             username: data.user.username,
             token: data.token,
-            userId: data.user.userId
+            userId: data.user.userId,
+            profilePictureUrl: ''
           });
 
           navigate('/choose-profile-picture');

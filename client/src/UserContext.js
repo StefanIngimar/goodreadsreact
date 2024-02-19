@@ -12,13 +12,14 @@ export const UserProvider = ({ children }) => {
 
     // update localStorage when user changes
     useEffect(() => {
+        const savedUser = localStorage.getItem('user');
         console.log(user);
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
+        if (savedUser) {
+            const currentUser = JSON.parse(savedUser);
+            console.log('Updating user from localStorage:', currentUser);
+            setUser(currentUser);
         }
-    }, [user]);
+    }, []);
 
     // logging user for test purposes
     console.log(user);

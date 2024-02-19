@@ -6,19 +6,16 @@ import { useUser } from './UserContext';
 const BookDetail = () => {
     const location = useLocation();
     const { book } = location.state;
-    const { user } = useUser();
+    const { user, refreshUserFromLocalStorage } = useUser();
 
     const userId = user?.id;
     const token = user?.token;;
-
-    if (!userId || !token) {
-        console.log('No user logged in');
-        return <div>Please log in to add books to your list</div>;
-    }
+    console.log('Current user in BookDetail:', user);
+    
     const apiUrl = 'http://localhost:8000';
     //const userId = user.userId;
 
-    if (!userId) {
+    if (!user.userId) {
         console.error('UserID is undefined. Please check the user state and localStorage.');
         return <div>Error: User ID not found. Please log in again.</div>;
     }

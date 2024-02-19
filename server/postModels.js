@@ -18,15 +18,20 @@ const createPost = async (userId, title, content) => {
 
 const getPostsByUser = async (userId) => {
     const result = await pool.query(
-        'SELECT * FROM posts WHERE user_id = $1',
+        'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC',
         [userId]
     );
     return result.rows;
 };
 
 const getPosts = async () => {
-    const result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
-    return result.rows;
+    try {
+        const result = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching posts from database:', error);
+        throw error;
+    }
 };
 
 

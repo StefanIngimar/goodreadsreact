@@ -27,12 +27,8 @@ function ProfilePictureSelection() {
             }),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to update profile picture');
-        }
-        const data = await response.json();
-        setUser(data);
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
         navigate('/timeline');
     } catch (error) {
         console.error('Error updating profile picture:', error);
@@ -58,7 +54,7 @@ function ProfilePictureSelection() {
           placeholder="Profile picture URL" 
         />
         <button type="submit">Submit</button>
-        <button onClick={handleSkip} style={{marginLeft: '10px'}}>Skip</button>
+        <button onClick={handleSkip} style={{marginLeft: '10px'}}>I don't want a picture</button>
       </form>
     </div>
   );
