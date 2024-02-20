@@ -27,16 +27,17 @@ function Login() {
       }
 
       const data = await response.json();
-      console.log('Login successful:', data);
       localStorage.setItem('user', JSON.stringify({
         username: data.username, 
         token: data.token,
-        userId: data.userId
+        userId: data.userId,
+        profilePictureUrl: data.profilePictureUrl
       }));
       setUser({
-        username: data.username,
+        username: data.username, 
         token: data.token,
-        userId: data.userId
+        userId: data.userId,
+        profilePictureUrl: data.profilePictureUrl
       });
       navigate('/timeline');
     } catch (error) {

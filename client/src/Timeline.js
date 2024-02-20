@@ -35,13 +35,16 @@ function Timeline() {
       {posts.map((post) => (
   <div key={post.id} className="post-container">
     <div className="post-header">
-      {post.userProfilePictureUrl && <img src={post.userProfilePictureUrl} alt="User" className="user-profile-pic"/>}
-      <span className="username">{post.username}</span>
+      {post.userprofilepictureurl && <img src={post.userprofilepictureurl} alt="User" className="user-profile-pic"/>}
     </div>
-    <div className="post-content">
-      <p>{post.title}</p>
-      <p>{post.content}</p>
-      {post.bookimageurl && <img src={post.bookimageurl} alt="Book" className="book-image"/>}
+    <p className='title'>{post.title}</p>
+    <div className="content-and-image">
+    <p className="post-content">{post.content}</p>
+    {post.bookimageurl && <img src={post.bookimageurl} alt="Book" className="book-image"/>}
+  </div>
+    <div className="buttons-container">
+      <button className="like-button">Like</button>
+      <button className="comment-button">Comment</button>
     </div>
   </div>
 ))}

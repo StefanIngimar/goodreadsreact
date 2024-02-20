@@ -19,7 +19,7 @@ const BookDetail = () => {
         console.error('UserID is undefined. Please check the user state and localStorage.');
         return <div>Error: User ID not found. Please log in again.</div>;
     }
-
+    console.log('Current user in BookDetail:', user);
     const createPost = async (title, content) => {
         const userStored = localStorage.getItem('user');
         if(!userStored){

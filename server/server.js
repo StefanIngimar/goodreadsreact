@@ -92,8 +92,7 @@ app.post("/login", async (req, res) => {
             const user = userResult.rows[0];
             if (await bcrypt.compare(password, user.password)) {
                 const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-                res.json({ message: "Login successful", token, userId: user.id });
-                console.log('Here is the token:', token);
+                res.json({ message: "Login successful", token, userId: user.id, username: user.username, profilePictureUrl: user.profile_picture_url});
             } else {
                 res.status(400).send("Invalid password");
             }
