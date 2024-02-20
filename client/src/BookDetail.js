@@ -33,11 +33,13 @@ const BookDetail = () => {
             console.error('Authentication token is not available.');
         }
         try {
+            const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
             const apiUrl = 'http://localhost:8000'; 
             await axios.post(`${apiUrl}/api/posts`, {
               userId: user.userId,
               title,
-              content
+              content,
+              bookImageUrl
             }, {
               headers: {
                 'Authorization': `Bearer ${token}`
@@ -61,6 +63,7 @@ const BookDetail = () => {
             await axios.post(`${apiUrl}/api/user-books/${listType}`, {
                 userId: userId,
                 bookId: book.id,
+                bookImageUrl: book.bookImageUrl,
             });
             alert(`Book added to ${listType} list.`);
             const bookTitle = book.volumeInfo.title;

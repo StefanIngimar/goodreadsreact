@@ -128,8 +128,9 @@ app.post('/api/user-books/:listType', async (req, res, next) =>{
 
 app.post('/api/posts', authenticateToken, async (req, res) => {
     try {
-        const{userId, title, content} = req.body;
-        const newPost = await createPost(userId, title, content);
+        console.log(req.body);
+        const{userId, title, content, bookImageUrl} = req.body;
+        const newPost = await createPost(userId, title, content, bookImageUrl);
         res.status(201).json(newPost);
     } catch (error) {
         console.error('Error fetching posts:', error);

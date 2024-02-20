@@ -8,10 +8,10 @@ const pool = new Pool({
     port: 5432,
 });
 
-const createPost = async (userId, title, content) => {
+const createPost = async (userId, title, content, bookimageurl) => {
     const result = await pool.query(
-        'INSERT INTO posts (user_id, title, content) VALUES ($1, $2, $3) RETURNING *',
-        [userId, title, content]
+        'INSERT INTO posts (user_id, title, content, bookimageurl) VALUES ($1, $2, $3, $4) RETURNING *',
+        [userId, title, content, bookimageurl]
     );
     return result.rows[0];
 };
@@ -32,12 +32,12 @@ const getPostsByUser = async (userId) => {
 const getPosts = async () => {
     try {
         const result = await pool.query(`
-      SELECT posts.id, posts.title, posts.content, posts.created_at, 
-             users.userprofilepictureurl, bookimageurl
-      FROM posts
-      JOIN users ON posts.user_id = users.id
-      LEFT JOIN books ON posts.book_id = books.id
-      ORDER BY posts.created_at DESC
+        SELECT posts.id, posts.title, posts.content, posts.created_at, 
+       posts.bookimageurl, users.profile_picture_url
+        FROM posts
+        JOIN users ON posts.user_id = users.id
+        ORDER BY posts.created_at DESC
+
     `);
         return result.rows;
     } catch (error) {

@@ -41,7 +41,7 @@ function Timeline() {
     <div className="post-content">
       <p>{post.title}</p>
       <p>{post.content}</p>
-      {post.bookImageUrl && <img src={post.bookImageUrl} alt="Book" className="book-image"/>}
+      {post.bookimageurl && <img src={post.bookimageurl} alt="Book" className="book-image"/>}
     </div>
   </div>
 ))}
