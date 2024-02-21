@@ -17,7 +17,7 @@
   border: 1px solid #ccc;
   margin-bottom: 20px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 50px;
   width: 40%;
   display: flex;
   flex-direction: column;
@@ -70,7 +70,7 @@
   margin-top: 10px;
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .like-button, .comment-button {
@@ -95,4 +95,15 @@
   .comment-button:active {
     background-color: #9c9797;
     border-color: #ffffff;
+  }
+
+  .interaction-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .interactions-info {
+    display: flex;
+    justify-content: flex-end;
   }

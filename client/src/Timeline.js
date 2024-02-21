@@ -28,6 +28,10 @@ function Timeline() {
     };
     fetchPosts();
   }, []);
+
+  const handleBookClick = (bookId) => {
+    navigate(`/bookdetail/${bookId}`);
+  };
   return (
     <div className="timeline-container">
       <h1 className="timeline-heading">Timeline</h1>
@@ -40,11 +44,15 @@ function Timeline() {
     <p className='title'>{post.title}</p>
     <div className="content-and-image">
     <p className="post-content">{post.content}</p>
-    {post.bookimageurl && <img src={post.bookimageurl} alt="Book" className="book-image"/>}
+    {post.bookimageurl && <img src={post.bookimageurl} alt="Book" className="book-image" onClick={() => handleBookClick(post.bookId)}/>}
   </div>
     <div className="buttons-container">
       <button className="like-button">Like</button>
       <button className="comment-button">Comment</button>
+    </div>
+    <div className="interactions-info">
+      <span><i className="like-icon"/> 10 Likes</span>
+      <span><i className="comment-icon"/> 5 Comments</span>
     </div>
   </div>
 ))}

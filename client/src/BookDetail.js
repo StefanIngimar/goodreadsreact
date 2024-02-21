@@ -53,6 +53,7 @@ const BookDetail = () => {
 
     const addToUserList = async (listType) => {
         const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
+        const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
         console.log('Attempting to add book with userID:', userId);
 
         if (!userId) {
@@ -69,7 +70,6 @@ const BookDetail = () => {
             const bookTitle = book.volumeInfo.title;
             const content = `${user.username} has added ${bookTitle} to their ${listType} list.`;
             const title = "New Book Added";
-            const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
             await createPost(title, content, bookImageUrl);
         } catch (error) {
             console.error('Error adding book to list:', error);

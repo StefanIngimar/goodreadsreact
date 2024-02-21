@@ -8,16 +8,16 @@ const pool = new Pool({
     port: 5432,
 });
 
-const addBook = async (userId, bookId, status) => {
+const addBook = async (userId, bookId, status, bookImageUrl) => {
     const result = await pool.query(
-        'INSERT INTO user_books (user_id, book_id, status) VALUES ($1, $2, $3) RETURNING *',
-        [userId, bookId, status]
+        'INSERT INTO user_books (user_id, book_id, status, book_image_url) VALUES ($1, $2, $3, $4) RETURNING *',
+        [userId, bookId, status, bookImageUrl]
     );
     return result.rows[0];
 };
 
 const getBooksByUser = async (userId, status = null) => {
-    let query = 'SELECT * FROM user_books WHERE user_id = $1';
+    let query = 'SELECT user_id, book_id, status, book_image_url FROM user_books WHERE user_id = $1';
     let params = [userId];
 
     if (status) {
@@ -37,10 +37,10 @@ const updateBookStatus = async (userId, bookId, newStatus) => {
     return result.rows[0];
 };
 
-const deleteBook = async (userId, bookId) => {
+const deleteBook = async (userId, bookId, book_image_url) => {
     const result = await pool.query(
         'DELETE FROM user_books WHERE user_id = $1 AND book_id = $2 RETURNING *',
-        [userId, bookId]
+        [userId, bookId, book_image_url]
     );
     return result.rowCount > 0;
 };
