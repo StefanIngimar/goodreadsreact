@@ -5,5 +5,60 @@ body {
 .accordion{
     justify-content: flex-start;
     width: 30%;
-    margin-top: 500px;
+    margin-top: 50px;
 }
+
+.user-posts-section {
+    text-align: center;
+    padding: 20px;
+}
+
+.books-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 10px;
+}
+
+.book-image {
+    flex: 0 0 auto;
+    width: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.post {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 50px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .post-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .content-and-image {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .post-content {
+    width: 50%;
+  }

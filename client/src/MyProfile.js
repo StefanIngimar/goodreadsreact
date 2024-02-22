@@ -6,18 +6,27 @@ const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
     const [wantToRead, setWantToRead] = useState([]);
     const [finishedReading, setFinishedReading] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [error, setError] = useState('');
     const apiUrl = 'http://localhost:8000/api/user-books';
+    const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
     useEffect(() => {
-        const fetchBooks = async () => {
-            const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+        const fetchBooksAndPosts = async () => {
+            try {
+                // Fetching posts
+                const postsResponse = await axios.get(`http://localhost:8000/api/posts`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }); setPosts(postsResponse.data);
 
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
-            try {
+            
                 const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse] = await Promise.all([
                 axios.get(`${apiUrl}/currently-reading`, config),
                 axios.get(`${apiUrl}/want-to-read`, config),
@@ -30,15 +39,34 @@ const MyProfile = () => {
                 console.error("Failed to fetch book lists", error);
             }
         };
-        fetchBooks();
-    }, []);
+        fetchBooksAndPosts();
+    }, [token]);
 
     const renderBookImages = (books) => {
-        return books.map(book => (
-            <img key={book.book_id} src={book.book_image_url} alt="Book cover" style={{ width: '100px', margin: '10px' }} />
-        ));
+        return (
+            <div className="books-container">
+                {books.map(book => (
+                    <img key={book.book_id} src={book.book_image_url} alt="Book cover" className="book-image" />
+                ))}
+            </div>
+        );
     };
         return (
+        <div className='profile-container'>
+            <div className="user-posts-section">
+                <h2>Posts</h2>
+                <div className="posts-container">
+                {posts.map((post) => (
+                    <div key={post.id} className="post">
+                        <h3>{post.title}</h3>
+                        <p>{post.content}</p>
+                        {post.bookImageUrl && (
+                            <img src={post.bookImageUrl} alt="Book cover" className="post-book-image" />
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
             <div className="accordion" id="accordionExample">
             <div className="accordion-item">
                 <h2 className="accordion-header">
@@ -77,6 +105,8 @@ const MyProfile = () => {
                 </div>
             </div>
             </div>
+            </div>
+            
         );
     };
 
