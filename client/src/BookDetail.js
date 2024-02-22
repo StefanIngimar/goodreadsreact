@@ -13,7 +13,6 @@ const BookDetail = () => {
     console.log('Current user in BookDetail:', user);
     
     const apiUrl = 'http://localhost:8000';
-    //const userId = user.userId;
 
     if (!user.userId) {
         console.error('UserID is undefined. Please check the user state and localStorage.');
@@ -53,7 +52,6 @@ const BookDetail = () => {
 
     const addToUserList = async (listType) => {
         const userId = user?.userId || JSON.parse(localStorage.getItem('user'))?.userId;
-        const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
         console.log('Attempting to add book with userID:', userId);
 
         if (!userId) {
@@ -61,10 +59,16 @@ const BookDetail = () => {
             return;
         }
         try {
+            const bookImageUrl = book.volumeInfo.imageLinks?.thumbnail;
+            const apiUrl = 'http://localhost:8000';
             await axios.post(`${apiUrl}/api/user-books/${listType}`, {
                 userId: userId,
                 bookId: book.id,
-                bookImageUrl: book.bookImageUrl,
+                bookImageUrl,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
             alert(`Book added to ${listType} list.`);
             const bookTitle = book.volumeInfo.title;

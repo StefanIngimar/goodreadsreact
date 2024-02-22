@@ -12,7 +12,7 @@ const addBook = async (userId, bookId, status, bookImageUrl) => {
     const result = await pool.query(
         'INSERT INTO user_books (user_id, book_id, status, book_image_url) VALUES ($1, $2, $3, $4) RETURNING *',
         [userId, bookId, status, bookImageUrl]
-    );
+    ).catch(err => console.error("Error executing addBook query:", err));
     return result.rows[0];
 };
 
@@ -37,6 +37,25 @@ const updateBookStatus = async (userId, bookId, newStatus) => {
     return result.rows[0];
 };
 
+const getBooksByUserAndType = async (userId, listType) => {
+    const statusMap = {
+        'currently-reading': 'currently reading',
+        'want-to-read': 'want to read',
+        'finished-reading': 'read',
+    };
+    const status = statusMap[listType];
+    try {
+        const result = await pool.query(
+            `SELECT * FROM user_books WHERE user_id = $1 AND status = $2`,
+            [userId, status]
+        );
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching books by user and type:', error);
+        throw error;
+    }
+};
+
 const deleteBook = async (userId, bookId, book_image_url) => {
     const result = await pool.query(
         'DELETE FROM user_books WHERE user_id = $1 AND book_id = $2 RETURNING *',
@@ -49,5 +68,6 @@ module.exports = {
     addBook,
     getBooksByUser,
     updateBookStatus,
-    deleteBook
+    deleteBook,
+    getBooksByUserAndType
 };

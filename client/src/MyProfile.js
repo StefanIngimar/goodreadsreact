@@ -10,11 +10,18 @@ const MyProfile = () => {
 
     useEffect(() => {
         const fetchBooks = async () => {
+            const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
             try {
                 const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse] = await Promise.all([
-                    axios.get(`${apiUrl}/currently-reading`),
-                    axios.get(`${apiUrl}/want-to-read`),
-                    axios.get(`${apiUrl}/finished-reading`),
+                axios.get(`${apiUrl}/currently-reading`, config),
+                axios.get(`${apiUrl}/want-to-read`, config),
+                axios.get(`${apiUrl}/finished-reading`, config),
                 ]);
                 setCurrentlyReading(currentlyReadingResponse.data);
                 setWantToRead(wantToReadResponse.data);

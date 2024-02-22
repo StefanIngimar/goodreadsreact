@@ -6,7 +6,7 @@ const cors = require('cors');
 const { createPost, getPostsByUser, getPosts } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
-const { addBook } = require('./booksModels');
+const { addBook, getBooksByUser, updateBookStatus, deleteBook, getBooksByUserAndType } = require('./booksModels');
 
 require('dotenv').config({path: __dirname + '/../.env'});
 console.log('Database user:', process.env.DB_USER);
@@ -107,13 +107,14 @@ app.post("/login", async (req, res) => {
 
 app.post('/api/user-books/:listType', async (req, res, next) =>{
     console.log("Received request body:", req.body);
-    const{userId, bookId} = req.body;
+    const { userId, bookId, bookImageUrl } = req.body;
+    const listType = req.params.listType;
     console.log("Request to add book:", userId, bookId);
     if (!userId || !bookId) {
         return res.status(400).send("Missing user ID or book ID");
     }
     try{
-        const result = await addBook(userId, bookId, req.params.listType);
+        const result = await addBook(userId, bookId, listType, bookImageUrl);
         if(!result) throw new Error('Function did not return a result');
         res.json(result);
     } catch(error){
@@ -122,6 +123,20 @@ app.post('/api/user-books/:listType', async (req, res, next) =>{
             console.error(error.response.data);
         }
         next(error);
+    }
+});
+
+app.get('/api/user-books/:listType', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;
+    const { listType } = req.params;
+    
+    try {
+        console.log(getBooksByUserAndType);
+        const books = await getBooksByUserAndType(userId, listType);
+        res.json(books);
+    } catch (error) {
+        console.error(`Error fetching books for listType: ${listType}`, error);
+        res.status(500).send('Internal Server Error');
     }
 });
 
