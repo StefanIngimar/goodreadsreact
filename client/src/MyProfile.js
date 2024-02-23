@@ -14,7 +14,6 @@ const MyProfile = () => {
     useEffect(() => {
         const fetchBooksAndPosts = async () => {
             try {
-                // Fetching posts
                 const postsResponse = await axios.get(`http://localhost:8000/api/posts`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -52,61 +51,46 @@ const MyProfile = () => {
         );
     };
         return (
-        <div className='profile-container'>
-            <div className="user-posts-section">
-                <h2>Posts</h2>
-                <div className="posts-container">
-                {posts.map((post) => (
-                    <div key={post.id} className="post">
-                        <h3>{post.title}</h3>
-                        <p>{post.content}</p>
-                        {post.bookImageUrl && (
-                            <img src={post.bookImageUrl} alt="Book cover" className="post-book-image" />
-                        )}
+            <div className="flex-container"> 
+            <div className="accordion" id="accordionExample">
+                <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingOne">
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Currently Reading
+                        </button>
+                    </h2>
+                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            {renderBookImages(currentlyReading)}
+                        </div>
                     </div>
-                ))}
+                </div>
+                <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingTwo">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Want to Read
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            {renderBookImages(wantToRead)}
+                        </div>
+                    </div>
+                </div>
+                <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingThree">
+                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Finished Reading
+                        </button>
+                    </h2>
+                    <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            {renderBookImages(finishedReading)}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-            <div className="accordion" id="accordionExample">
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Currently reading
-                </button>
-                </h2>
-                <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div className="accordion-body">
-                    {renderBookImages(currentlyReading)}
-                </div>
-                </div>
-            </div>
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Want to read
-                </button>
-                </h2>
-                <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div className="accordion-body">
-                    {renderBookImages(wantToRead)}
-                </div>
-                </div>
-            </div>
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Finished reading
-                </button>
-                </h2>
-                <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div className="accordion-body">
-                    {renderBookImages(finishedReading)}
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
-            
         );
     };
 
