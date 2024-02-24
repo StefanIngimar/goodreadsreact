@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MyProfile.css';
+import { useNavigate } from 'react-router-dom';
+import BookDetail from './BookDetail';
 
 const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
     const [wantToRead, setWantToRead] = useState([]);
     const [finishedReading, setFinishedReading] = useState([]);
-    const [posts, setPosts] = useState([]);
-    const [error, setError] = useState('');
     const apiUrl = 'http://localhost:8000/api/user-books';
     const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchBooksAndPosts = async () => {
-            try {
-                const postsResponse = await axios.get(`http://localhost:8000/api/posts`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }); setPosts(postsResponse.data);
+        const fetchBooks = async () => {
+            const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
-            
+            try {
                 const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse] = await Promise.all([
                 axios.get(`${apiUrl}/currently-reading`, config),
                 axios.get(`${apiUrl}/want-to-read`, config),
@@ -38,14 +34,19 @@ const MyProfile = () => {
                 console.error("Failed to fetch book lists", error);
             }
         };
-        fetchBooksAndPosts();
+        fetchBooks();
     }, [token]);
+
+    const handleBookClick = (bookId) => {
+        navigate(`/book/${bookId}`);
+        console.log("Book clicked:", bookId);
+    };
 
     const renderBookImages = (books) => {
         return (
             <div className="books-container">
                 {books.map(book => (
-                    <img key={book.book_id} src={book.book_image_url} alt="Book cover" className="book-image" />
+                    <img key={book.book_id} src={book.book_image_url} alt="Book cover" className="book-image" onClick={() => handleBookClick(book.book_id)}/>
                 ))}
             </div>
         );
