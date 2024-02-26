@@ -1,45 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from './UserContext';
 
 const BookDetail = () => {
     const location = useLocation();
-    const [book, setBook] = useState(null);
+    const { book } = location.state;
     const { user, refreshUserFromLocalStorage } = useUser();
-    const { bookId } = useParams();
+
     const userId = user?.id;
     const token = user?.token;;
     console.log('Current user in BookDetail:', user);
-    const apiUrl = 'http://localhost:8000/api/books';
+    
+    const apiUrl = 'http://localhost:8000';
 
     if (!user.userId) {
         console.error('UserID is undefined. Please check the user state and localStorage.');
         return <div>Error: User ID not found. Please log in again.</div>;
     }
     console.log('Current user in BookDetail:', user);
-
-    useEffect(() => {
-        const fetchBookDetail = async () => {
-            if (!bookId) {
-                console.log('Book ID is undefined.');
-                return;
-            }
-    
-            try {
-                const apiUrl = `http://localhost:8000/api/user_books/${bookId}`;
-                const response = await axios.get(apiUrl, {
-                    headers: { 'Authorization': `Bearer ${token}` },
-                });
-                setBook(response.data);
-            } catch (error) {
-                console.error('Error fetching book details:', error);
-            }
-        };
-    
-        fetchBookDetail();
-    }, [bookId, token]);
-
     const createPost = async (title, content) => {
         const userStored = localStorage.getItem('user');
         if(!userStored){

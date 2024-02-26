@@ -31,7 +31,6 @@ function App() {
         <Route path="/choose-profile-picture" element={<Layout><ProfilePictureSelection/></Layout>}/>
         <Route path="/timeline" element={isLoggedIn() ? <Layout><Timeline /></Layout> : <Navigate replace to="/" />} />
         <Route path="/MyProfile" element={isLoggedIn() ? <Layout><MyProfile/></Layout> : <Navigate replace to="/" />}/>
-        <Route path="/book/:bookId" element={<BookDetail />} />
         <Route path="/UserProfile" element={<Layout><UserProfile/></Layout>}/>
         <Route path="/" element={<Layout><BookSearch/></Layout>}/>
         <Route path="/BookDetail" element={isLoggedIn() ? <Layout><BookDetail/></Layout> : <Navigate replace to="/"/>}/>

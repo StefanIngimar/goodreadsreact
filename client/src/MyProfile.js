@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MyProfile.css';
 import { useNavigate } from 'react-router-dom';
-import BookDetail from './BookDetail';
 
 const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
@@ -14,7 +13,6 @@ const MyProfile = () => {
 
     useEffect(() => {
         const fetchBooks = async () => {
-            const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
         const config = {
             headers: {
@@ -38,9 +36,12 @@ const MyProfile = () => {
     }, [token]);
 
     const handleBookClick = (bookId) => {
-        navigate(`/book/${bookId}`);
-        console.log("Book clicked:", bookId);
-    };
+        if(bookId) {
+          navigate(`/book/${bookId}`);
+        } else {
+          console.error('Book ID is undefined or null');
+        }
+      };
 
     const renderBookImages = (books) => {
         return (
