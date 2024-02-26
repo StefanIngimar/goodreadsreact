@@ -105,6 +105,16 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.post('/api/user/update', async (req, res) => {
+    const { id, username, email, password, profilePictureUrl } = req.body;
+    try {
+        const updatedUser = await updateUser(id, username, email, password, profilePictureUrl);
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 app.post('/api/user-books/:listType', async (req, res, next) =>{
     console.log("Received request body:", req.body);
     const { userId, bookId, bookImageUrl } = req.body;

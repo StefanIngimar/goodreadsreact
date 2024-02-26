@@ -19,7 +19,21 @@ const createUser = async (username, password) => {
     return result.rows[0];
 };
 
+const updateUser = async (id, username, email, password, profilePictureUrl) => {
+    let query = 'UPDATE users SET username = $1, email = $2, profile_picture_url = $4 WHERE id = $5 RETURNING *';
+    let params = [username, email, profilePictureUrl, id];
+
+    if (password) {
+        query = 'UPDATE users SET username = $1, email = $2, password = $3, profile_picture_url = $4 WHERE id = $5 RETURNING *';
+        params = [username, email, password, profilePictureUrl, id];
+    }
+
+    const result = await pool.query(query, params);
+    return result.rows[0];
+};
+
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    updateUser
 };
