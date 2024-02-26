@@ -35,13 +35,19 @@ const MyProfile = () => {
         fetchBooks();
     }, [token]);
 
-    const handleBookClick = (bookId) => {
+    const handleBookClick = async (bookId) => {
         if(bookId) {
-          navigate(`/book/${bookId}`);
+            const apiKey = "AIzaSyA5IDmX6E5L05YAxOFfQqiUnI9_WOReuMo";
+            try {
+                const response = await axios.get(`https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`);
+                navigate('/BookDetail', { state: { book: response.data } });
+            } catch (error) {
+                console.error('Error fetching book details:', error);
+            }
         } else {
-          console.error('Book ID is undefined or null');
+            console.error('Book ID is undefined or null');
         }
-      };
+    };
 
     const renderBookImages = (books) => {
         return (
