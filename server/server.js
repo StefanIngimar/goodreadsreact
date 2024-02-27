@@ -7,6 +7,7 @@ const { createPost, getPostsByUser, getPosts } = require('./postModels');
 const jwt = require('jsonwebtoken');
 const {authenticateToken} = require('./middleware');
 const { addBook, getBooksByUser, updateBookStatus, deleteBook, getBooksByUserAndType } = require('./booksModels');
+const { updateUser } = require('./userModels');
 
 require('dotenv').config({path: __dirname + '/../.env'});
 console.log('Database user:', process.env.DB_USER);
@@ -105,13 +106,23 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.post('/api/user/update', async (req, res) => {
-    const { id, username, email, password, profilePictureUrl } = req.body;
+app.put('/api/update', async (req, res) => {
+    const { userId, username, email, password, profilePictureUrl } = req.body;
+    if (!userId) {
+        return res.status(400).send("User ID is required.");
+    }
+
     try {
-        const updatedUser = await updateUser(id, username, email, password, profilePictureUrl);
+        let hashedPassword = null;
+        if (password) {
+            const saltRounds = 10;
+            hashedPassword = await bcrypt.hash(password, saltRounds);
+        }
+        const updatedUser = await updateUser(userId, username, email, hashedPassword, profilePictureUrl);
         res.json(updatedUser);
     } catch (error) {
-        res.status(500).send(error.message);
+        console.error('Error updating user:', error);
+        res.status(500).send("Internal Server Error");
     }
 });
 

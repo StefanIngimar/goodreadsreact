@@ -13,12 +13,13 @@ import BookDetail from './BookDetail';
 import { UserProvider } from './UserContext';
 import './App.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import Modal from 'react-modal';
 //test
 
 const isLoggedIn = () =>{
   return Boolean(localStorage.getItem('user'));
 };
-
+Modal.setAppElement('#root');
 function App() {
 
   return (

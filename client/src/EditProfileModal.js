@@ -1,15 +1,37 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
     const [username, setUsername] = useState(userData ? userData.username : '');
     const [email, setEmail] = useState(userData ? userData.email : '');
+    const [profilePictureUrl, setProfilePictureUrl] = useState(userData ? userData.profilePictureUrl : '');
     const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave({ username, email, password });
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const payload = {
+          userId: userData.id,
+          username,
+          email,
+          profilePictureUrl,
+          password: password || undefined,
+      };
+  
+      console.log("Sending payload:", payload);
+  
+      try {
+          const apiUrl = 'http://localhost:8000/api/update';
+          const response = await axios.put(apiUrl, payload);
+          console.log('User updated successfully:', response.data);
+          if (onSave) {
+              onSave(response.data);
+          }
+          onClose();
+      } catch (error) {
+          console.error('Failed to update the user:', error);
+      }
   };
 
   return (
@@ -23,6 +45,10 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
         <label>
           Email:
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" />
+        </label>
+        <label>
+          Profile picture:
+          <input type="profilepic" value={profilePictureUrl} onChange={(e) => setProfilePictureUrl(e.target.value)} name="profilepic" />
         </label>
         <label>
           Password (leave blank to keep unchanged):

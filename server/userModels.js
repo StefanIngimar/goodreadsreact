@@ -20,13 +20,35 @@ const createUser = async (username, password) => {
 };
 
 const updateUser = async (id, username, email, password, profilePictureUrl) => {
-    let query = 'UPDATE users SET username = $1, email = $2, profile_picture_url = $4 WHERE id = $5 RETURNING *';
-    let params = [username, email, profilePictureUrl, id];
-
-    if (password) {
-        query = 'UPDATE users SET username = $1, email = $2, password = $3, profile_picture_url = $4 WHERE id = $5 RETURNING *';
-        params = [username, email, password, profilePictureUrl, id];
+    let query = 'UPDATE users SET';
+    let params = [];
+    let setParts = [];
+    let counter = 1;
+    if (username) {
+        setParts.push(`username = $${counter}`);
+        params.push(username);
+        counter++;
     }
+    if (email) {
+        setParts.push(`email = $${counter}`);
+        params.push(email);
+        counter++;
+    }
+    if (profilePictureUrl) {
+        setParts.push(`profile_picture_url = $${counter}`);
+        params.push(profilePictureUrl);
+        counter++;
+    }
+    if (password) {
+        setParts.push(`password = $${counter}`);
+        params.push(password);
+        counter++;
+    }
+    if (setParts.length === 0) {
+        throw new Error("No fields provided for update");
+    }
+    query += setParts.join(', ') + ` WHERE id = $${counter} RETURNING *`;
+    params.push(id);
 
     const result = await pool.query(query, params);
     return result.rows[0];
