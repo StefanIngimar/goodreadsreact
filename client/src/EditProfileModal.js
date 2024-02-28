@@ -5,9 +5,9 @@ import axios from 'axios';
 import { useUser } from './UserContext';
 
 const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
-  const [username, setUsername] = useState(userData && userData.username ? userData.username : '');
-  const [email, setEmail] = useState(userData && userData.email ? userData.email : '');
-  const [profilePictureUrl, setProfilePictureUrl] = useState(userData && userData.profilePictureUrl ? userData.profilePictureUrl : '');
+  const [username, setUsername] = useState(userData.username || '');
+  const [email, setEmail] = useState(userData.email || '');
+  const [profilePictureUrl, setProfilePictureUrl] = useState(userData.profilePictureUrl || '');
   const [password, setPassword] = useState('');
   const { user } = useUser();
 
@@ -28,7 +28,9 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
         const response = await axios.put(apiUrl, payload);
     
         console.log('User updated successfully:', response.data);
-        if (onSave) onSave(response.data);
+        if (onSave) {
+          onSave(response.data);
+        }
         onClose();
       } catch (error) {
         console.error('Failed to update the user:', error);

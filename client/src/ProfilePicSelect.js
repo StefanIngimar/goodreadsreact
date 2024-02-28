@@ -53,6 +53,11 @@ function ProfilePictureSelection() {
           onChange={(e) => setPictureUrl(e.target.value)} 
           placeholder="Profile picture URL" 
         />
+        <h2>Write something about yourself</h2>
+        <input
+          type='text'
+          value//TODO={}
+          />
         <button type="submit">Submit</button>
         <button onClick={handleSkip} style={{marginLeft: '10px'}}>I don't want a picture</button>
       </form>

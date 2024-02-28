@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MyProfile.css';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext';
 
 const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
@@ -10,6 +11,7 @@ const MyProfile = () => {
     const apiUrl = 'http://localhost:8000/api/user-books';
     const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
     const navigate = useNavigate();
+    const {user} = useUser();
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -59,7 +61,12 @@ const MyProfile = () => {
         );
     };
         return (
-            <div className="flex-container"> 
+            <div>
+            <div className='user-container'>
+            <div className="profile-pic" style={{ backgroundImage: `url(${user.profilePictureUrl})`, backgroundSize: 'cover', borderRadius: '50%', width: '150px', height: '150px' }} data-bs-toggle="dropdown" aria-expanded="false">
+                </div>
+            </div>
+            <div className="flex-container">
             <div className="accordion" id="accordionExample">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="headingOne">
@@ -98,6 +105,7 @@ const MyProfile = () => {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         );
     };

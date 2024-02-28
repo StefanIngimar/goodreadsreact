@@ -28,6 +28,8 @@ const Layout = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('User updated successfully:', data);
+        setUser(data);
+        localStorage.setItem('user', JSON.stringify(data));
         setShowEditModal(false);
       } else {
         console.error('Failed to update the user:', await response.text());
