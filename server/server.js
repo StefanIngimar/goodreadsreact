@@ -106,18 +106,14 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.put('/api/update', async (req, res) => {
+app.put('/api/user/update', async (req, res) => {
     const { userId, username, email, password, profilePictureUrl } = req.body;
-    if (!userId) {
-        return res.status(400).send("User ID is required.");
+    let hashedPassword = null;
+    if (password) {
+        hashedPassword = await bcrypt.hash(password, 10);
     }
 
     try {
-        let hashedPassword = null;
-        if (password) {
-            const saltRounds = 10;
-            hashedPassword = await bcrypt.hash(password, saltRounds);
-        }
         const updatedUser = await updateUser(userId, username, email, hashedPassword, profilePictureUrl);
         res.json(updatedUser);
     } catch (error) {

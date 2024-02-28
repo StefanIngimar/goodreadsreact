@@ -2,37 +2,38 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { useUser } from './UserContext';
 
 const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
-    const [username, setUsername] = useState(userData ? userData.username : '');
-    const [email, setEmail] = useState(userData ? userData.email : '');
-    const [profilePictureUrl, setProfilePictureUrl] = useState(userData ? userData.profilePictureUrl : '');
-    const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(userData && userData.username ? userData.username : '');
+  const [email, setEmail] = useState(userData && userData.email ? userData.email : '');
+  const [profilePictureUrl, setProfilePictureUrl] = useState(userData && userData.profilePictureUrl ? userData.profilePictureUrl : '');
+  const [password, setPassword] = useState('');
+  const { user } = useUser();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       const payload = {
-          userId: userData.id,
-          username,
-          email,
-          profilePictureUrl,
-          password: password || undefined,
+        userId: user.userId,
+        username,
+        email,
+        profilePictureUrl,
+        password,
       };
-  
-      console.log("Sending payload:", payload);
-  
+    
+      console.log('Sending payload:', payload);
+    
       try {
-          const apiUrl = 'http://localhost:8000/api/update';
-          const response = await axios.put(apiUrl, payload);
-          console.log('User updated successfully:', response.data);
-          if (onSave) {
-              onSave(response.data);
-          }
-          onClose();
+        const apiUrl = 'http://localhost:8000/api/user/update';
+        const response = await axios.put(apiUrl, payload);
+    
+        console.log('User updated successfully:', response.data);
+        if (onSave) onSave(response.data);
+        onClose();
       } catch (error) {
-          console.error('Failed to update the user:', error);
+        console.error('Failed to update the user:', error);
       }
-  };
+    };
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose} contentLabel="Edit User">

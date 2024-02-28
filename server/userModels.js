@@ -19,39 +19,47 @@ const createUser = async (username, password) => {
     return result.rows[0];
 };
 
-const updateUser = async (id, username, email, password, profilePictureUrl) => {
-    let query = 'UPDATE users SET';
+const updateUser = async (id, username, email, hashedPassword, profilePictureUrl) => {
+    let query = 'UPDATE users SET ';
     let params = [];
     let setParts = [];
     let counter = 1;
+
     if (username) {
-        setParts.push(`username = $${counter}`);
+        setParts.push(`username = $${counter++}`);
         params.push(username);
-        counter++;
     }
     if (email) {
-        setParts.push(`email = $${counter}`);
+        setParts.push(`email = $${counter++}`);
         params.push(email);
-        counter++;
     }
     if (profilePictureUrl) {
-        setParts.push(`profile_picture_url = $${counter}`);
+        setParts.push(`profile_picture_url = $${counter++}`);
         params.push(profilePictureUrl);
-        counter++;
     }
-    if (password) {
-        setParts.push(`password = $${counter}`);
-        params.push(password);
-        counter++;
+    if (hashedPassword) {
+        setParts.push(`password = $${counter++}`);
+        params.push(hashedPassword);
     }
+
     if (setParts.length === 0) {
         throw new Error("No fields provided for update");
     }
-    query += setParts.join(', ') + ` WHERE id = $${counter} RETURNING *`;
+
+    query += setParts.join(', ') + ` WHERE id = $${counter} RETURNING *;`;
     params.push(id);
 
-    const result = await pool.query(query, params);
-    return result.rows[0];
+    try {
+        const result = await pool.query(query, params);
+        if (result.rows.length > 0) {
+            return result.rows[0];
+        } else {
+            throw new Error("User not found or no changes made.");
+        }
+    } catch (error) {
+        console.error('Error updating user in updateUser:', error);
+        throw error;
+    }
 };
 
 module.exports = {
