@@ -1,4 +1,6 @@
-This is a website that i created in React, with a Node server. The website is a copy of Goodreads, where users can search for books, add them to their respective lists 'Have read', 'Want to read', and 'Currently reading'. As well as following their friends to see what books they are reading. I created this project to teach myself how to use react. The search function comes from the Google Books API.
+This is a website that I created in React, with a Node server. The website is a copy of Goodreads, where users can search for books, add them to their respective lists 'Have read', 'Want to read', and 'Currently reading'. As well as following their friends to see what books they are reading. I created this project to teach myself how to use react. The search function comes from the Google Books API.
+
+The website is not yet finished, but it is still functional. It runs on a Node JS server and React. The database is in PostgreSQL, and I use Knex for the database migrations.
 
 ---------
 
