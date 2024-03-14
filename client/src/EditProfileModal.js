@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
+import './EditProfileModal.css'
 import { useUser } from './UserContext';
 
 const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
@@ -38,7 +39,17 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
     };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} contentLabel="Edit User">
+    <Modal 
+    isOpen={isOpen} 
+    onRequestClose={onClose} 
+    contentLabel="Edit User"
+    style={{
+      content: {
+        width: '600px',
+        height: '600px',
+        margin: 'auto'
+      }
+    }}>
       <h2>Edit User</h2>
       <form onSubmit={handleSubmit}>
         <label>
