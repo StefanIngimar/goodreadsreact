@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
-import './EditProfileModal.css'
 import { useUser } from './UserContext';
 
 const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
