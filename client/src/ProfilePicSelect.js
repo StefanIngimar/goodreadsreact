@@ -4,6 +4,7 @@ import { useUser } from './UserContext';
 
 function ProfilePictureSelection() {
   const [pictureUrl, setPictureUrl] = useState('');
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
   const { user, setUser } = useUser();
 
@@ -12,7 +13,7 @@ function ProfilePictureSelection() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const profilePictureUrl = pictureUrl || defaultProfilePic;
-    const updatedUser = { ...user, profilePictureUrl };
+    const updatedUser = { ...user, profilePictureUrl, description };
 
     try {
         const response = await fetch('/api/user/choose-profile-picture', {
@@ -24,6 +25,7 @@ function ProfilePictureSelection() {
             body: JSON.stringify({
                 userId: user.userId,
                 profilePictureUrl,
+                description,
             }),
         });
 
@@ -53,13 +55,15 @@ function ProfilePictureSelection() {
           onChange={(e) => setPictureUrl(e.target.value)} 
           placeholder="Profile picture URL" 
         />
+        <button type="submit">Submit</button>
+        <button onClick={handleSkip} style={{marginLeft: '10px'}}>I don't want a picture</button>
         <h2>Write something about yourself</h2>
         <input
           type='text'
-          value//TODO={}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Your description"
           />
-        <button type="submit">Submit</button>
-        <button onClick={handleSkip} style={{marginLeft: '10px'}}>I don't want a picture</button>
       </form>
     </div>
   );

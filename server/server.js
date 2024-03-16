@@ -65,12 +65,12 @@ app.post("/register", async (req, res) => {
 
 app.post('/api/user/choose-profile-picture', authenticateToken, async (req, res) => {
     const userId = req.user.userId;
-    const { profilePictureUrl } = req.body;
+    const { profilePictureUrl, description  } = req.body;
 
     try {
         const result = await db.query(
-            'UPDATE users SET profile_picture_url = $1 WHERE id = $2 RETURNING *',
-            [profilePictureUrl, userId]
+            'UPDATE users SET profile_picture_url = $1, description = $2 WHERE id = $3 RETURNING *',
+            [profilePictureUrl, description, userId]
         );
         if (result.rows.length > 0) {
             res.json(result.rows[0]);
@@ -107,14 +107,14 @@ app.post("/login", async (req, res) => {
 });
 
 app.put('/api/user/update', async (req, res) => {
-    const { userId, username, email, password, profilePictureUrl } = req.body;
+    const { userId, username, email, password, profilePictureUrl, description } = req.body;
     let hashedPassword = null;
     if (password) {
         hashedPassword = await bcrypt.hash(password, 10);
     }
 
     try {
-        const updatedUser = await updateUser(userId, username, email, hashedPassword, profilePictureUrl);
+        const updatedUser = await updateUser(userId, username, email, hashedPassword, profilePictureUrl, description);
         res.json(updatedUser);
     } catch (error) {
         console.error('Error updating user:', error);

@@ -14,12 +14,12 @@ const getUsers = async () => {
 };
 
 const createUser = async (username, password) => {
-    const result = await pool.query('INSERT INTO users(username, email, password, profile_picture_url) VALUES($1, $2, $3, $4) RETURNING id, username, email, profile_picture_url',
-    [username, email, password, profilePictureUrl]);
+    const result = await pool.query('INSERT INTO users(username, email, password, profile_picture_url, description) VALUES($1, $2, $3, $4, $5) RETURNING id, username, email, profile_picture_url, description',
+    [username, email, password, profilePictureUrl, description]);
     return result.rows[0];
 };
 
-const updateUser = async (id, username, email, hashedPassword, profilePictureUrl) => {
+const updateUser = async (id, username, email, hashedPassword, profilePictureUrl, description) => {
     let query = 'UPDATE users SET ';
     let params = [];
     let setParts = [];
@@ -40,6 +40,10 @@ const updateUser = async (id, username, email, hashedPassword, profilePictureUrl
     if (hashedPassword) {
         setParts.push(`password = $${counter++}`);
         params.push(hashedPassword);
+    }
+    if (description) {
+        setParts.push(`description = $${counter++}`);
+        params.push(description);
     }
 
     if (setParts.length === 0) {

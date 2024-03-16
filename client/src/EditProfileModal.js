@@ -9,7 +9,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
   const [email, setEmail] = useState(userData.email || '');
   const [profilePictureUrl, setProfilePictureUrl] = useState(userData.profilePictureUrl || '');
   const [password, setPassword] = useState('');
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -28,6 +28,9 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
         const response = await axios.put(apiUrl, payload);
     
         console.log('User updated successfully:', response.data);
+        const updatedUser = { ...user, ...response.data };
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
         if (onSave) {
           onSave(response.data);
         }

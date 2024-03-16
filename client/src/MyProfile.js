@@ -8,6 +8,7 @@ const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
     const [wantToRead, setWantToRead] = useState([]);
     const [finishedReading, setFinishedReading] = useState([]);
+    const [description, setDescription] = useState('');
     const apiUrl = 'http://localhost:8000/api/user-books';
     const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
     const navigate = useNavigate();
@@ -22,14 +23,16 @@ const MyProfile = () => {
             },
         };
             try {
-                const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse] = await Promise.all([
+                const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse, userProfileResponse] = await Promise.all([
                 axios.get(`${apiUrl}/currently-reading`, config),
                 axios.get(`${apiUrl}/want-to-read`, config),
                 axios.get(`${apiUrl}/finished-reading`, config),
+                axios.get(userProfileUrl, config),
                 ]);
                 setCurrentlyReading(currentlyReadingResponse.data);
                 setWantToRead(wantToReadResponse.data);
                 setFinishedReading(finishedReadingResponse.data);
+                setDescription(userProfileResponse.data.description);
             } catch (error) {
                 console.error("Failed to fetch book lists", error);
             }
@@ -104,6 +107,10 @@ const MyProfile = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="user-description">
+                <h2>About me</h2>
+                <p>{description}</p>
             </div>
         </div>
         </div>

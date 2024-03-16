@@ -50,3 +50,8 @@ body {
   margin-right: 10px;
   background-size: cover;
 }
+
+.user-description {
+  flex-grow: 1; 
+  margin-top: 50px;
+}
