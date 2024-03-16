@@ -27,7 +27,7 @@ const MyProfile = () => {
                 axios.get(`${apiUrl}/currently-reading`, config),
                 axios.get(`${apiUrl}/want-to-read`, config),
                 axios.get(`${apiUrl}/finished-reading`, config),
-                axios.get(userProfileUrl, config),
+                //axios.get(userProfileUrl, config),
                 ]);
                 setCurrentlyReading(currentlyReadingResponse.data);
                 setWantToRead(wantToReadResponse.data);
@@ -110,7 +110,7 @@ const MyProfile = () => {
             </div>
             <div className="user-description">
                 <h2>About me</h2>
-                <p>{description}</p>
+                <p>{user.description}</p>
             </div>
         </div>
         </div>
