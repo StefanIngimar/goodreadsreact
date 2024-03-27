@@ -22,12 +22,13 @@ const MyProfile = () => {
                 Authorization: `Bearer ${token}`,
             },
         };
+        const userProfileUrl = 'http://localhost:8000/api/user/profile';
             try {
                 const [currentlyReadingResponse, wantToReadResponse, finishedReadingResponse, userProfileResponse] = await Promise.all([
                 axios.get(`${apiUrl}/currently-reading`, config),
                 axios.get(`${apiUrl}/want-to-read`, config),
                 axios.get(`${apiUrl}/finished-reading`, config),
-                //axios.get(userProfileUrl, config),
+                axios.get(userProfileUrl, config),
                 ]);
                 setCurrentlyReading(currentlyReadingResponse.data);
                 setWantToRead(wantToReadResponse.data);
@@ -39,7 +40,7 @@ const MyProfile = () => {
         };
         fetchBooks();
     }, [token]);
-
+    
     const handleBookClick = async (bookId) => {
         if(bookId) {
             const apiKey = "AIzaSyA5IDmX6E5L05YAxOFfQqiUnI9_WOReuMo";
@@ -110,7 +111,7 @@ const MyProfile = () => {
             </div>
             <div className="user-description">
                 <h2>About me</h2>
-                <p>{user.description}</p>
+                <p>{description}</p>
             </div>
         </div>
         </div>

@@ -122,6 +122,23 @@ app.put('/api/user/update', async (req, res) => {
     }
 });
 
+app.get('/api/user/profile', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+        const result = await db.query('SELECT id, username, email, profile_picture_url, description FROM users WHERE id = $1', [userId]);
+        if (result.rows.length > 0) {
+            const userProfile = result.rows[0];
+            res.json(userProfile);
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.post('/api/user-books/:listType', async (req, res, next) =>{
     console.log("Received request body:", req.body);
     const { userId, bookId, bookImageUrl } = req.body;

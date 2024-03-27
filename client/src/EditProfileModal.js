@@ -10,6 +10,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
   const [profilePictureUrl, setProfilePictureUrl] = useState(userData.profilePictureUrl || '');
   const [password, setPassword] = useState('');
   const { user, setUser } = useUser();
+  const [description, setDescription] = useState(userData.description || '');
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -19,6 +20,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
         email,
         profilePictureUrl,
         password,
+        description,
       };
     
       console.log('Sending payload:', payload);
@@ -69,6 +71,10 @@ const EditProfileModal = ({ isOpen, onClose, onSave, userData }) => {
         <label>
           Password (leave blank to keep unchanged):
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} name="password" />
+        </label>
+        <label>
+          Description:
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} name="description" />
         </label>
         <button type="submit">Save Changes</button>
         <button type="button" onClick={onClose}>Cancel</button>
