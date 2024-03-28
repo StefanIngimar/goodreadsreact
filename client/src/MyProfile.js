@@ -3,6 +3,7 @@ import axios from 'axios';
 import './MyProfile.css';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
+import Modal from 'react-modal';
 
 const MyProfile = () => {
     const [currentlyReading, setCurrentlyReading] = useState([]);
@@ -13,6 +14,8 @@ const MyProfile = () => {
     const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
     const navigate = useNavigate();
     const {user} = useUser();
+    const [friends, setFriends] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -40,6 +43,21 @@ const MyProfile = () => {
         };
         fetchBooks();
     }, [token]);
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/friends/list', {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                });
+                setFriends(response.data);
+            } catch (error) {
+                console.error('Failed to fetch friends:', error);
+            }
+        };
+
+        fetchFriends();
+    }, [user.token]);
     
     const handleBookClick = async (bookId) => {
         if(bookId) {
@@ -64,6 +82,34 @@ const MyProfile = () => {
             </div>
         );
     };
+
+    const renderFriendsPreview = () => (
+        <div>
+            <a href="#!" onClick={() => setIsModalOpen(true)}>
+                {friends.length} friends
+            </a>
+            <div className="friends-preview">
+                {friends.slice(0, 6).map(friend => (
+                    <img key={friend.id} src={friend.profile_picture_url} alt={friend.username} className="friend-preview-img" />
+                ))}
+            </div>
+        </div>
+    );
+
+    const renderFriendsModal = () => (
+        <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
+            <h2>All Friends</h2>
+            <button onClick={() => setIsModalOpen(false)}>Close</button>
+            <div className="friends-list">
+                {friends.map(friend => (
+                    <div key={friend.id} className="friend-item">
+                        <img src={friend.profile_picture_url} alt={friend.username} className="friend-img" />
+                        <div>{friend.username}</div>
+                    </div>
+                ))}
+            </div>
+        </Modal>
+    );
         return (
             <div>
             <div className='user-container'>
@@ -112,6 +158,10 @@ const MyProfile = () => {
             <div className="user-description">
                 <h2>About me</h2>
                 <p>{description}</p>
+            </div>
+            <div>
+            {renderFriendsPreview()}
+            {renderFriendsModal()}
             </div>
         </div>
         </div>

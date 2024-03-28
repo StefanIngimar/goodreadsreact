@@ -9,6 +9,10 @@ function Timeline() {
   const [error, setError] = useState('');
   const {user} = useUser();
   const navigate = useNavigate();
+  const handleFindFriends = () => {
+    // Navigate to the Find Friends page or open a modal
+    navigate('/find-friends'); // Assuming you have a route set up for this
+};
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -59,6 +63,7 @@ function Timeline() {
 
         {error && <div className="error">{error}</div>}
       </div>
+      <button onClick={handleFindFriends}>Find Friends</button>
     </div>
   );
 }

@@ -174,6 +174,62 @@ app.get('/api/user-books/:listType', authenticateToken, async (req, res) => {
     }
 });
 
+app.post('/api/friends/add', authenticateToken, async (req, res) => {
+    const { userId } = req.user;
+    const { friendId } = req.body;
+
+    try {
+        const result = await db.query(
+            'INSERT INTO friends (user_id, friend_id, status) VALUES ($1, $2, $3) RETURNING *',
+            [userId, friendId, 'pending']
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error adding friend:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/api/friends/list', authenticateToken, async (req, res) => {
+    const { userId } = req.user;
+
+    try {
+        const result = await db.query(
+            'SELECT users.id, users.username, users.profile_picture_url FROM users JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = $1 AND friends.status = $2',
+            [userId, 'accepted']
+        );
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching friends:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/api/books/:bookId/friends-reading', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;
+    const { bookId } = req.params;
+
+    try {
+        const query = `
+            SELECT u.id, u.username, u.profile_picture_url 
+            FROM users u
+            INNER JOIN friends f ON f.friend_id = u.id
+            INNER JOIN user_books ub ON ub.user_id = u.id
+            WHERE f.user_id = $1 AND ub.book_id = $2 AND f.status = 'accepted'
+        `;
+        const result = await db.query(query, [userId, bookId]);
+
+        if (result.rows.length > 0) {
+            res.json(result.rows);
+        } else {
+            res.status(404).send('No friends found reading this book.');
+        }
+    } catch (error) {
+        console.error('Error fetching friends reading the book:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.post('/api/posts', authenticateToken, async (req, res) => {
     try {
         console.log(req.body);

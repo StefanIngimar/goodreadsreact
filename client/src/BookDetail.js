@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from './UserContext';
@@ -7,12 +7,25 @@ const BookDetail = () => {
     const location = useLocation();
     const { book } = location.state;
     const { user, refreshUserFromLocalStorage } = useUser();
-
+    const [friendsReading, setFriendsReading] = useState([]);
     const userId = user?.id;
     const token = user?.token;;
     console.log('Current user in BookDetail:', user);
     
     const apiUrl = 'http://localhost:8000';
+
+    useEffect(() => {
+        const fetchFriendsReading = async () => {
+            const response = await axios.get(`http://localhost:8000/api/books/${book.id}/friends-reading`, {
+                headers: { Authorization: `Bearer ${user.token}` },
+            });
+            setFriendsReading(response.data);
+        };
+
+        if (book && book.id) {
+            fetchFriendsReading();
+        }
+    }, [book, user.token]);
 
     if (!user.userId) {
         console.error('UserID is undefined. Please check the user state and localStorage.');
@@ -102,6 +115,12 @@ const BookDetail = () => {
                 <button onClick={handleAddToRead}>Add to Read</button>
                 <button onClick={handleAddtoWantToRead}>Add to Want to Read</button>
                 <button onClick={handleAddToCurrentlyReading}>Add to Currently Reading</button>
+            </div>
+            <h3>Friends Reading This Book</h3>
+            <div>
+                {friendsReading.map(friend => (
+                    <div key={friend.id}>{friend.username}</div>
+                ))}
             </div>
         </div>
     );
