@@ -222,7 +222,7 @@ app.get('/api/books/:bookId/friends-reading', authenticateToken, async (req, res
         if (result.rows.length > 0) {
             res.json(result.rows);
         } else {
-            res.status(404).send('No friends found reading this book.');
+            res.json([]);
         }
     } catch (error) {
         console.error('Error fetching friends reading the book:', error);

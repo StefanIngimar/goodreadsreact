@@ -16,12 +16,16 @@ const BookDetail = () => {
 
     useEffect(() => {
         const fetchFriendsReading = async () => {
-            const response = await axios.get(`http://localhost:8000/api/books/${book.id}/friends-reading`, {
-                headers: { Authorization: `Bearer ${user.token}` },
-            });
-            setFriendsReading(response.data);
+            try {
+                const response = await axios.get(`${apiUrl}/api/books/${book.id}/friends-reading`, {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                });
+                setFriendsReading(response.data);
+            } catch (error) {
+                console.error('Error fetching friends reading the book:', error);
+            }
         };
-
+    
         if (book && book.id) {
             fetchFriendsReading();
         }
