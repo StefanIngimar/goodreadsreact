@@ -3,16 +3,16 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import './Timeline.css';
 import { useUser } from './UserContext';
+import FindFriendsModal from './FindFriendsModal';
 
 function Timeline() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState('');
   const {user} = useUser();
   const navigate = useNavigate();
-  const handleFindFriends = () => {
-    // Navigate to the Find Friends page or open a modal
-    navigate('/find-friends'); // Assuming you have a route set up for this
-};
+  const [showEditModal, setShowEditModal] = useState(false);
+  const openFindFriendsModal = () => setShowEditModal(true);
+  const closeFindFriendsModal = () => setShowEditModal(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -63,8 +63,12 @@ function Timeline() {
 
         {error && <div className="error">{error}</div>}
       </div>
-      <button onClick={handleFindFriends}>Find Friends</button>
-    </div>
+      <button onClick={openFindFriendsModal}>Find Friends</button>
+        <FindFriendsModal
+          isOpen={showEditModal}
+          onClose={closeFindFriendsModal}
+        />
+  </div>
   );
 }
 

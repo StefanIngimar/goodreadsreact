@@ -205,6 +205,18 @@ app.get('/api/friends/list', authenticateToken, async (req, res) => {
     }
 });
 
+app.get('/api/users/search', authenticateToken, async (req, res) => {
+    const { username } = req.query;
+
+    try {
+        const result = await db.query('SELECT id, username FROM users WHERE username ILIKE $1', [`%${username}%`]);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error searching for users:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.get('/api/books/:bookId/friends-reading', authenticateToken, async (req, res) => {
     const userId = req.user.userId;
     const { bookId } = req.params;
