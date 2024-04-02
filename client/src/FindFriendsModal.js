@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { useUser } from './UserContext';
+import { Link } from 'react-router-dom';
+import './FindFriendsModal.css';
 
 const FindFriendsModal = ({ isOpen, onClose, onSave }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,7 +20,12 @@ const FindFriendsModal = ({ isOpen, onClose, onSave }) => {
           const response = await axios.get(`http://localhost:8000/api/users/search?username=${searchTerm}`, {
             headers: { Authorization: `Bearer ${user.token}` },
           });
-          setSearchResults(response.data);
+          if (response.data.length === 0) {
+            setSearchError("No users found matching your search. Please try a different search term.");
+          } else {
+            setSearchResults(response.data);
+            setSearchError('');
+        }
         } catch (error) {
           console.error("Failed to search for users", error);
           setSearchError('Failed to search for users. Please try again later.');
@@ -49,7 +56,11 @@ const FindFriendsModal = ({ isOpen, onClose, onSave }) => {
             {searchError && <div className="error">{searchError}</div>}
             <div className="search-results">
               {searchResults.map(user => (
-                <div key={user.id}>{user.username}</div>
+              <div key={user.id} className="search-result-item">
+                <Link to={`/userprofile/${user.id}`} onClick={onClose}>
+                {user.username}
+                </Link>
+              </div>
               ))}
             </div>
           </div>

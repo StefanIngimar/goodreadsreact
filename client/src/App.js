@@ -14,7 +14,6 @@ import { UserProvider } from './UserContext';
 import './App.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Modal from 'react-modal';
-//test
 
 const isLoggedIn = () =>{
   return Boolean(localStorage.getItem('user'));
@@ -32,7 +31,7 @@ function App() {
         <Route path="/choose-profile-picture" element={<Layout><ProfilePictureSelection/></Layout>}/>
         <Route path="/timeline" element={isLoggedIn() ? <Layout><Timeline /></Layout> : <Navigate replace to="/" />} />
         <Route path="/MyProfile" element={isLoggedIn() ? <Layout><MyProfile/></Layout> : <Navigate replace to="/" />}/>
-        <Route path="/UserProfile" element={<Layout><UserProfile/></Layout>}/>
+        <Route path="/UserProfile/:userId" element={<Layout><UserProfile/></Layout>}/>
         <Route path="/" element={<Layout><BookSearch/></Layout>}/>
         <Route path="/BookDetail" element={isLoggedIn() ? <Layout><BookDetail/></Layout> : <Navigate replace to="/"/>}/>
       </Routes>
