@@ -7,6 +7,7 @@ function UserProfile() {
   const {userId} = useParams();
   const [profile, setProfile] = useState({});
   const { user } = useUser();
+  const [fetchError, setFetchError] = useState('');
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -17,8 +18,10 @@ function UserProfile() {
                 },
             });
             setProfile(response.data);
+            setFetchError('');
         } catch (error) {
             console.error("Failed to fetch user profile", error);
+            setFetchError('User profile not found or could not be loaded.');
         }
     };
 
@@ -27,11 +30,18 @@ function UserProfile() {
   return (
     <div>
       <h1>User Profile</h1>
+      {fetchError ? (
+            <p>{fetchError}</p>
+        ) : (
+            <>
         {profile.username && (
           <>
-          <img src={profile.profilePictureUrl} alt="User" />
+          <img src={profile.profilePictureUrl} alt={`${profile.username}'s profile`} style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
           <h2>{profile.username}</h2>
+          <p>{profile.description}</p>
           </>
+        )}
+        </>
         )}
       <div className="addfriend">
       <button className="add-button">Send friend request</button>
