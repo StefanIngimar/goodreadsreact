@@ -217,6 +217,22 @@ app.get('/api/users/search', authenticateToken, async (req, res) => {
     }
 });
 
+app.get('/api/users/:userId', async (req, res) => {
+    const { userId } = req.params;
+    
+    try {
+        const result = await db.query('SELECT id, username, description, profile_picture_url FROM users WHERE id = $1', [userId]);
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]);
+        } else {
+            res.status(404).send('User not found');
+        }
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.get('/api/books/:bookId/friends-reading', authenticateToken, async (req, res) => {
     const userId = req.user.userId;
     const { bookId } = req.params;

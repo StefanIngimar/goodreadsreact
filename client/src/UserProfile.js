@@ -8,6 +8,7 @@ function UserProfile() {
   const [profile, setProfile] = useState({});
   const { user } = useUser();
   const [fetchError, setFetchError] = useState('');
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,7 +37,7 @@ function UserProfile() {
             <>
         {profile.username && (
           <>
-          <img src={profile.profilePictureUrl} alt={`${profile.username}'s profile`} style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+          <img src={profile.profilePictureUrl} alt={`${profile.username}'s profile`} onError={() => setImageError(true)} />
           <h2>{profile.username}</h2>
           <p>{profile.description}</p>
           </>
