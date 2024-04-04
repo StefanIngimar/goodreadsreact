@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import{useParams} from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from './UserContext';
+import './UserProfile.css'
 
 function UserProfile() {
   const {userId} = useParams();
@@ -29,15 +30,18 @@ function UserProfile() {
     fetchUserProfile();
 }, [userId, user.token]);
   return (
-    <div>
-      <h1>User Profile</h1>
+    <div className="profile-container">
       {fetchError ? (
-            <p>{fetchError}</p>
-        ) : (
+        <p>{fetchError}</p>
+      ) : (
+        <>
+          {profile.username && (
             <>
-        {profile.username && (
-          <>
-          <img src={profile.profilePictureUrl} alt={`${profile.username}'s profile`} onError={() => setImageError(true)} />
+              <img 
+                src={profile.profile_picture_url} 
+                alt={`${profile.username}'s profile`} 
+                className="profile-image" 
+          onError={() => setImageError(true)} />
           <h2>{profile.username}</h2>
           <p>{profile.description}</p>
           </>
