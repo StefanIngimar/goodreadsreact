@@ -217,6 +217,26 @@ app.get('/api/users/search', authenticateToken, async (req, res) => {
     }
 });
 
+app.put('/api/friends/accept', authenticateToken, async (req, res) => {
+    const userId = req.user.userId;
+    const { friendId } = req.body; 
+
+    try {
+        const result = await db.query(
+            'UPDATE friends SET status = $1 WHERE user_id = $2 AND friend_id = $3 RETURNING *',
+            ['accepted', friendId, userId]
+        );
+        if (result.rows.length > 0) {
+            res.json({ message: "Friend request accepted" });
+        } else {
+            res.status(404).send('Friend request not found');
+        }
+    } catch (error) {
+        console.error('Error accepting friend request:', error);
+        res.status(500).send('Server error');
+    }
+});
+
 app.get('/api/users/:userId', async (req, res) => {
     const { userId } = req.params;
     

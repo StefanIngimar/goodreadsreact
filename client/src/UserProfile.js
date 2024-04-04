@@ -3,6 +3,8 @@ import{useParams} from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from './UserContext';
 import './UserProfile.css'
+import { toast , ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserProfile() {
   const {userId} = useParams();
@@ -29,6 +31,28 @@ function UserProfile() {
 
     fetchUserProfile();
 }, [userId, user.token]);
+
+//toast.configure();
+
+const sendFriendRequest = async () => {
+  try {
+      await axios.post(`http://localhost:8000/api/friends/add`, 
+          { friendId: userId },
+          { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      toast.success('Friend request sent', {
+          position: "top-center",
+          autoClose: 5000,
+      });
+  } catch (error) {
+      console.error("Failed to send friend request", error);
+      toast.error('Failed to send friend request. Please try again.', {
+          position: "top-center",
+          autoClose: 5000,
+      });
+  }
+};
+
   return (
     <div className="profile-container">
       {fetchError ? (
@@ -49,7 +73,8 @@ function UserProfile() {
         </>
         )}
       <div className="addfriend">
-      <button className="add-button">Send friend request</button>
+      <button className="add-button" onClick={sendFriendRequest}>Send friend request</button>
+      <ToastContainer autoClose={8000}/>
       </div>
     </div>
   );
