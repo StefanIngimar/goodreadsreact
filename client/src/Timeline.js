@@ -39,6 +39,9 @@ function Timeline() {
   return (
     <div className="timeline-container">
       <h1 className="timeline-heading">Timeline</h1>
+      <div className="friends-btn-container">
+      <button className='friendsbtn' onClick={openFindFriendsModal}>Find Friends</button>
+    </div>
       <div className="posts-container">
       {posts.map((post) => (
   <div key={post.id} className="post-container">
@@ -62,12 +65,11 @@ function Timeline() {
 ))}
 
         {error && <div className="error">{error}</div>}
-      </div>
-      <button onClick={openFindFriendsModal}>Find Friends</button>
-        <FindFriendsModal
-          isOpen={showEditModal}
-          onClose={closeFindFriendsModal}
-        />
+    </div>
+    <FindFriendsModal
+      isOpen={showEditModal}
+      onClose={closeFindFriendsModal}
+    />
   </div>
   );
 }

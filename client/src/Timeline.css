@@ -22,6 +22,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
 }
 
 .post-header {
@@ -73,7 +74,7 @@
   justify-content: flex-start;
 }
 
-.like-button, .comment-button {
+.like-button, .comment-button, .friendsbtn {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   border: none;
@@ -86,13 +87,16 @@
 .like-button:hover,
   .like-button:focus,
   .comment-button:hover,
-  .comment-button:focus {
+  .comment-button:focus,
+  .friendsbtn:hover,
+  .friendsbtn:focus {
     background-color: #a19c9c;
     border-color: #fefefe;
   }
   
   .like-button:active,
-  .comment-button:active {
+  .comment-button:active,
+  .friendsbtn:active {
     background-color: #9c9797;
     border-color: #ffffff;
   }
@@ -106,4 +110,20 @@
   .interactions-info {
     display: flex;
     justify-content: flex-end;
+  }
+
+  .friendsbtn {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .friends-btn-container {
+    display: flex;
+    align-items: start;
+    padding: 10px;
   }
