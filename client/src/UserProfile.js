@@ -13,6 +13,25 @@ function UserProfile() {
   const [fetchError, setFetchError] = useState('');
   const [imageError, setImageError] = useState(false);
 
+  const sendFriendRequest = async () => {
+    try {
+        await axios.post(`http://localhost:8000/api/friends/add`, 
+            { friendId: userId },
+            { headers: { Authorization: `Bearer ${user.token}` } }
+        );
+        toast.success('Friend request sent', {
+            position: "top-center",
+            autoClose: 5000,
+        });
+    } catch (error) {
+        console.error("Failed to send friend request", error);
+        toast.error('Failed to send friend request. Please try again.', {
+            position: "top-center",
+            autoClose: 5000,
+        });
+    }
+  };
+
   useEffect(() => {
     const fetchUserProfile = async () => {
         try {
@@ -33,25 +52,6 @@ function UserProfile() {
 }, [userId, user.token]);
 
 //toast.configure();
-
-const sendFriendRequest = async () => {
-  try {
-      await axios.post(`http://localhost:8000/api/friends/add`, 
-          { friendId: userId },
-          { headers: { Authorization: `Bearer ${user.token}` } }
-      );
-      toast.success('Friend request sent', {
-          position: "top-center",
-          autoClose: 5000,
-      });
-  } catch (error) {
-      console.error("Failed to send friend request", error);
-      toast.error('Failed to send friend request. Please try again.', {
-          position: "top-center",
-          autoClose: 5000,
-      });
-  }
-};
 
   return (
     <div className="profile-container">
