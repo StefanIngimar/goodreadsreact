@@ -74,7 +74,10 @@ function UserProfile() {
         )}
       <div className="addfriend">
       <button className="add-button" onClick={sendFriendRequest}>Send friend request</button>
-      <ToastContainer autoClose={8000}/>
+      <ToastContainer
+      position='top-center'
+      autoClose={5000}
+      closeOnClick />
       </div>
     </div>
   );
