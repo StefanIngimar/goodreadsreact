@@ -3,74 +3,86 @@ This is a website that I created in React, with a Node server. The website is a 
 The website is not yet finished, but it is still functional. It runs on a Node JS server and React. The database is in PostgreSQL, and I use Knex for the database migrations.
 
 ---------
+**How to run the project**
 
-# Getting Started with Create React App
+**1. Clone the Repository**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Clone the project from the repository.
+Make sure you have Node.js installed on your system.
 
-## Available Scripts
+For the client:
 
-In the project directory, you can run:
+>cd client
 
-### `npm start`
+>npm install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+For the server:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+>cd ../server
 
-### `npm test`
+>npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**3. Set Up Environment Variables**
 
-### `npm run build`
+Create a .env file in the root of the server directory with the following content (adjust values as needed):
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+>PORT=5000
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+>DATABASE_URL=postgres://<yourusername>:<yourpassword>@localhost:5432/<your_database>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+>GOOGLE_BOOKS_API_KEY=<your_google_books_api_key>
 
-### `npm run eject`
+Ensure that you replace the placeholders with your actual PostgreSQL credentials and Google Books API key. You can get an API key from the Google Developers Console.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**4. Set Up PostgreSQL Database**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Make sure you have PostgreSQL installed.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Next, create a new database for the project:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+>psql -U <username>
 
-## Learn More
+>CREATE DATABASE <your_database>;
+>
+Then, you'll need to run migrations using Knex to set up your database tables.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Inside the server directory, run:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+>npx knex migrate:latest
 
-### Code Splitting
+This will set up the necessary tables for the application.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**5. Run the Server**
 
-### Analyzing the Bundle Size
+To start the Node.js server, run the following command inside the server directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+>npm start
 
-### Making a Progressive Web App
+This will start your Node.js backend server.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**6. Run the React Client**
 
-### Advanced Configuration
+Now, you can run the React frontend. Navigate to the client directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+>cd client
 
-### Deployment
+>npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This will start the React development server, and you can view the app by visiting http://localhost:3000 in your browser.
 
-### `npm run build` fails to minify
+------------------------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Screenshots**
+
+While the UI is not finished, the backend is nearly finished. Here is how the website looks so far
+
+![image](https://github.com/user-attachments/assets/487daac6-c579-4c1c-b815-7058ab5df1a0)
+
+![image](https://github.com/user-attachments/assets/35850d50-d890-4c26-a446-903241c1a6d0)
+
+![image](https://github.com/user-attachments/assets/e7f6eb97-9bbf-489b-add7-827433269da1)
+
+![image](https://github.com/user-attachments/assets/91c66095-09d3-42de-94f8-8a96fc7cd1dc)
+
+
+
