@@ -5,7 +5,7 @@ The website is not yet finished, but it is still functional. It runs on a Node J
 ---------
 **How to run the project**
 
-**1. Clone the Repository**
+# 1. Clone the Repository
 
 Clone the project from the repository.
 Make sure you have Node.js installed on your system.
@@ -22,7 +22,7 @@ For the server:
 
 >npm install
 
-**3. Set Up Environment Variables**
+# 2. Set Up Environment Variables
 
 Create a .env file in the root of the server directory with the following content (adjust values as needed):
 
@@ -34,7 +34,7 @@ Create a .env file in the root of the server directory with the following conten
 
 Ensure that you replace the placeholders with your actual PostgreSQL credentials and Google Books API key. You can get an API key from the Google Developers Console.
 
-**4. Set Up PostgreSQL Database**
+# 3. Set Up PostgreSQL Database
 
 Make sure you have PostgreSQL installed.
 
@@ -52,7 +52,7 @@ Inside the server directory, run:
 
 This will set up the necessary tables for the application.
 
-**5. Run the Server**
+# 4. Run the Server
 
 To start the Node.js server, run the following command inside the server directory:
 
@@ -60,7 +60,7 @@ To start the Node.js server, run the following command inside the server directo
 
 This will start your Node.js backend server.
 
-**6. Run the React Client**
+# 5. Run the React Client
 
 Now, you can run the React frontend. Navigate to the client directory:
 
