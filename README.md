@@ -72,7 +72,7 @@ This will start the React development server, and you can view the app by visiti
 
 ------------------------
 
-**Screenshots**
+# Screenshots
 
 While the UI is not finished, the backend is nearly finished. Here is how the website looks so far
 
